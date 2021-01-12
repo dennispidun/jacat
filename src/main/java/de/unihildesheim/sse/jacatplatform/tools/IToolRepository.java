@@ -10,4 +10,10 @@ public interface IToolRepository extends CrudRepository<Tool, String> {
     boolean existsToolByApiBaseUrl(String apiBaseUrl);
 
     List<Tool> findAllByLanguagesContaining(String language);
+
+    List<Tool> findAllByType(String type);
+
+    List<Tool> findAllByTypeAndLanguagesContaining(String type, String language);
+
+    List<String> findAllLanguagesByType(String type);
 }

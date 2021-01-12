@@ -75,7 +75,29 @@ public class InMemoryToolRepository implements IToolRepository {
     @Override
     public List<Tool> findAllByLanguagesContaining(String language) {
         return this.tools.values().stream()
-                .filter(tool -> tool.getLanguages().contains(language))
+                .filter(tool -> tool.getLanguages().contains(language.toLowerCase()))
                 .collect(Collectors.toList());
+    }
+
+    @Override
+    public List<Tool> findAllByType(String type) {
+        return this.tools.values().stream()
+                .filter(tool -> tool.getType().equalsIgnoreCase(type))
+                .collect(Collectors.toList());
+    }
+
+    @Override
+    public List<Tool> findAllByTypeAndLanguagesContaining(String type, String language) {
+        return this.tools.values().stream()
+                .filter(tool -> tool.getType().equalsIgnoreCase(type)
+                        && tool.getLanguages().contains(language.toLowerCase()))
+                .collect(Collectors.toList());
+    }
+
+    @Override
+    public List<String> findAllLanguagesByType(String type) {
+        return this.findAllByType(type).stream()
+                .flatMap(tool -> tool.getLanguages().stream())
+                .distinct().collect(Collectors.toList());
     }
 }

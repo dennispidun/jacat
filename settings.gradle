@@ -1,1 +1,3 @@
 rootProject.name = 'jacat-platform'
+include 'example-addon'
+

@@ -1,7 +1,10 @@
 package de.unihildesheim.sse.jacatplatform.tools;
 
-public class ToolAlreadyRegisteredException extends RuntimeException {
+import de.unihildesheim.sse.jacatplatform.error.ApplicationRuntimeException;
+import org.springframework.http.HttpStatus;
+
+public class ToolAlreadyRegisteredException extends ApplicationRuntimeException {
     public ToolAlreadyRegisteredException(Tool tool) {
-        super("Tool does already exist.");
+        super("Tool already exists.", HttpStatus.CONFLICT);
     }
 }
