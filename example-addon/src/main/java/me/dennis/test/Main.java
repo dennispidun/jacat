@@ -1,9 +1,11 @@
 package me.dennis.test;
 
-public class Main {
+import de.unihildesheim.sse.jacat.platform.addon.JavaAddon;
 
-    public void enable() {
-        System.out.println("luuul");
+public class Main extends JavaAddon {
+
+    @Override
+    public void onEnable() {
+        System.out.println("Noch ein Addon isssss da: " + this.getJacatPlatform().getVersion());
     }
-
 }

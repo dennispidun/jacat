@@ -1,3 +1,4 @@
-rootProject.name = 'jacat-platform'
-include 'example-addon'
+rootProject.name = 'jacat'
+include 'platform', 'example-addon'
+include 'addon-api'
 

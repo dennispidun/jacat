@@ -1,0 +1,5 @@
+main: me.dennis.test.Main
+type: hinting
+languages:
+  - java
+  - c++
