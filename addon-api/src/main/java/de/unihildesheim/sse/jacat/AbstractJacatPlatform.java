@@ -1,4 +1,4 @@
-package de.unihildesheim.sse.jacat.platform;
+package de.unihildesheim.sse.jacat;
 
 public abstract class AbstractJacatPlatform {
 

@@ -1,5 +1,6 @@
 package de.unihildesheim.sse.jacat.platform.addon;
 
+import de.unihildesheim.sse.jacat.addon.AddonDescription;
 import de.unihildesheim.sse.jacat.platform.JacatPlatform;
 import org.springframework.stereotype.Component;
 import org.yaml.snakeyaml.Yaml;
@@ -7,20 +8,20 @@ import org.yaml.snakeyaml.Yaml;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
-import java.net.MalformedURLException;
-import java.util.ArrayList;
 import java.util.Enumeration;
-import java.util.List;
 import java.util.Map;
 import java.util.jar.JarEntry;
 import java.util.jar.JarFile;
 
 @Component
-public class JavaAddonLoader {
+public class AddonLoader {
 
-    private List<AddonClassLoader> addonClassLoaders = new ArrayList<>();
+    private JacatPlatform jacatPlatform;
+    private AddonManager addonManager;
 
-    public JavaAddonLoader() {
+    public AddonLoader(JacatPlatform jacatPlatform, AddonManager addonManager) {
+        this.jacatPlatform = jacatPlatform;
+        this.addonManager = addonManager;
         loadAddonFolder(new File("./debug/addons"));
     }
 
@@ -41,19 +42,16 @@ public class JavaAddonLoader {
         }
     }
 
-    private boolean isAddonFile(File file) {
-
-        return false;
-    }
-
     public void loadAddon(File file, AddonDescription addonDescription) {
         if (file == null) {
             return;
         }
 
         try {
-            addonClassLoaders.add(new AddonClassLoader(file, addonDescription, new JacatPlatform()));
-        } catch (MalformedURLException e) {
+            AddonClassLoader classLoader = new AddonClassLoader(file, addonDescription, this.jacatPlatform);
+
+            this.addonManager.addAddon(classLoader.getLoadedAddon());
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }
@@ -71,8 +69,7 @@ public class JavaAddonLoader {
                     Map<String, Object> obj = yaml.load(input);
 
                     return new AddonDescription((String) obj.get("main"),
-                            (List<String>) obj.get("languages"),
-                            (String) obj.get("type"));
+                            (String) obj.get("name"));
                 }
             }
         } catch (IOException e) {
