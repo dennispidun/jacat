@@ -1,31 +1,29 @@
 package de.unihildesheim.sse.jacat.platform.tools;
 
+import de.unihildesheim.sse.jacat.addon.AbstractAnalysisCapability;
+import de.unihildesheim.sse.jacat.addon.Addon;
+import de.unihildesheim.sse.jacat.platform.task.AnalysisAddonMetadata;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 public class ListToolDto {
 
-    private String uuid;
-
     private String name;
 
-    private String type;
+    private String slug;
 
     private List<String> languages;
 
-    private boolean failedAvailabilityTest = false;
-
-    public ListToolDto(Tool tool) {
-        this.uuid = tool.getUuid();
-        this.name = tool.getName();
-        this.type = tool.getType();
-        this.languages = tool.getLanguages();
-        this.failedAvailabilityTest = tool.isFailedAvailabilityTest();
+    public ListToolDto(Addon addon, AbstractAnalysisCapability analysisCapability) {
+        this.name = addon.getDescription().getName();
+        this.slug = analysisCapability.getSlug();
+        this.languages = analysisCapability.getLanguages();
     }
 }

@@ -1,5 +1,9 @@
 package de.unihildesheim.sse.jacat.platform.tools;
 
+import de.unihildesheim.sse.jacat.addon.AbstractAnalysisCapability;
+import de.unihildesheim.sse.jacat.addon.Addon;
+import de.unihildesheim.sse.jacat.addon.TaskConfiguration;
+import de.unihildesheim.sse.jacat.platform.task.AnalysisAddonRegister;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.*;
@@ -9,12 +13,10 @@ import java.util.stream.Collectors;
 @RequestMapping("/api/v0/tools")
 public class ToolsController {
 
-    private InMemoryToolRepository repository;
-    private ToolsAvailabilityService toolsAvailabilityService;
+    private AnalysisAddonRegister analysisAddonRegister;
 
-    public ToolsController(InMemoryToolRepository repository, ToolsAvailabilityService toolsAvailabilityService) {
-        this.repository = repository;
-        this.toolsAvailabilityService = toolsAvailabilityService;
+    public ToolsController(AnalysisAddonRegister analysisAddonRegister) {
+        this.analysisAddonRegister = analysisAddonRegister;
     }
 
     // GET List<Tool> listTools()                                   /api/v0/tools
@@ -23,59 +25,37 @@ public class ToolsController {
     // GET List<Tool> listTools(CodeLanguage cl, ToolsType tt)      /api/v0/tools?language=c++&type=PLAGIARISM
     @GetMapping
     public List<ListToolDto> listTools(@RequestParam("language") Optional<String> clanguage,
-                                @RequestParam("type") Optional<String> type) {
-        List<Tool> tools;
-
-        if (clanguage.isPresent() && type.isEmpty()) {
-            tools = this.repository.findAllByLanguagesContaining(clanguage.get());
-        } else if (clanguage.isPresent() && type.isPresent()) {
-            tools = this.repository.findAllByTypeAndLanguagesContaining(type.get(), clanguage.get());
-        } else if (clanguage.isEmpty() && type.isPresent()) {
-            tools = this.repository.findAllByType(type.get());
-        } else {
-            tools = this.repository.findAll();
-        }
-
-        return tools.stream()
-                .filter(tool -> !tool.isFailedAvailabilityTest())
-                .map(ListToolDto::new)
+                                @RequestParam("slug") Optional<String> slug) {
+        Map<Addon, AbstractAnalysisCapability> addonsWithMetadata = this.analysisAddonRegister.getAddons();
+        Set<Addon> addons = addonsWithMetadata.keySet();
+        return addons.stream()
+                .map(addon -> new ListToolDto(addon, addonsWithMetadata.get(addon)))
+                .filter(addon -> clanguage.isEmpty() || addon.getLanguages().contains(clanguage.get().toLowerCase()))
+                .filter(addon -> slug.isEmpty() || addon.getSlug().equalsIgnoreCase(slug.get()))
                 .collect(Collectors.toList());
     }
 
-//    @PostMapping
-//    public Tool register(@Valid @RequestBody Tool tool) {
-//        if (this.repository.existsToolByApiBaseUrl(tool.getApiBaseUrl())) {
-//            throw new ToolAlreadyRegisteredException(tool);
-//        }
-//
-//        this.toolsAvailabilityService.checkAvailability(tool);
-//
-//        tool.setUuid(UUID.randomUUID().toString());
-//        return repository.save(tool);
-//    }
+    @PostMapping("/{slug}/analysis")
+    public void startAnalysis(@PathVariable("slug") String slug,
+                              @RequestParam("language") String language,
+                              @RequestBody Map<String, Object> body) {
+        Map<Addon, AbstractAnalysisCapability> addons = this.analysisAddonRegister.getAddons();
+        Optional<Addon> foundAddon = this.analysisAddonRegister.getAddons(slug).stream()
+                .filter(addon -> addons.get(addon).getLanguages().contains(language.toLowerCase()))
+                .findFirst();
+        if (foundAddon.isPresent()) {
+            AbstractAnalysisCapability capability = addons.get(foundAddon.get());
+            TaskConfiguration taskConfiguration = new TaskConfiguration(language.toLowerCase(), body);
+            capability.startAnalysis(taskConfiguration);
+        }
+    }
 
     @GetMapping("/types")
-    public List<Object> listToolType() {
-        List<String> types = repository.findAll().stream()
-                .map(Tool::getType)
-                .distinct()
-                .collect(Collectors.toList());
-
-        return types.stream().map(type -> {
-            Map<String, Object> result = new HashMap<>();
-            result.put("type", type);
-            List<String> languages = repository.findAllLanguagesByType(type);
-            result.put("languages", languages);
-            return result;
-        }).collect(Collectors.toList());
-
+    public List<AbstractAnalysisCapability> listToolType() {
+        // TODO: 14.01.2021 Implement mapping from addons to different analysis types
+        return Collections.emptyList();
     }
 
     // GET List<String> listToolTypes()                             /api/v0/tools/types
     // GET List<String> listCodeLanguages()                         /api/v0/tools/languages
-
-    // POST     void register(Tool tool)                            /api/v0/tools
-    // DELETE   void unregister(Tool tool)                          /api/v0/tools
-
-    // GET/POST/PUT/PATCH/DELETE     forward(HttpRequest request)   /api/v0/tools/{toolName}/**
 }
