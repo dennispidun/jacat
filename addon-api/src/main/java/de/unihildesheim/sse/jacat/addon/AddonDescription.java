@@ -3,6 +3,12 @@ package de.unihildesheim.sse.jacat.addon;
 
 import java.util.Objects;
 
+/**
+ * Datenklasse für die Beschreibung eines Addons.
+ * In dieser Klasse wird die Hauptklasse und der Name gespeichert.
+ * Es wird von der Plattform automatisch ein Objekt von dieser
+ * Klasse angelegt, sodass ein Addon hiermit arbeiten kann.
+ */
 public class AddonDescription {
 
     private String mainClass;
