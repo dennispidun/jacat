@@ -11,6 +11,6 @@ public class Main extends Addon {
         this.hinter = new HintingAnalysisCapability();
 
         this.getJacatPlatform().registerAnalysisTask(this, this.hinter);
-        System.out.println("[" + this.getDescription().getName() + "] Addon ist da: " + this.getJacatPlatform().getVersion());
+        this.getLogger().info("Addon ist da: " + this.getJacatPlatform().getVersion());
     }
 }

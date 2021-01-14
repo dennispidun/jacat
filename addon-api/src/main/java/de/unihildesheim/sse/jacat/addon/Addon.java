@@ -1,6 +1,7 @@
 package de.unihildesheim.sse.jacat.addon;
 
 import de.unihildesheim.sse.jacat.AbstractJacatPlatform;
+import org.slf4j.Logger;
 
 import java.util.Objects;
 
@@ -13,6 +14,7 @@ public abstract class Addon {
 
     private AbstractJacatPlatform platform;
     private AddonDescription description;
+    private Logger logger;
 
     /**
      * Diese Methode wird zur Initialisierung des Addons genutzt.
@@ -37,6 +39,14 @@ public abstract class Addon {
      */
     public AddonDescription getDescription() {
         return description;
+    }
+
+    /**
+     * Jedes Addon besitzt einen SLF4J-Logger
+     * @return Konfigurierten SLF4J-Logger
+     */
+    public Logger getLogger() {
+        return logger;
     }
 
     @Override
