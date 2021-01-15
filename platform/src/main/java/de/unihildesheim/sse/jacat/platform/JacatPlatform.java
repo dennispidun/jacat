@@ -1,13 +1,10 @@
 package de.unihildesheim.sse.jacat.platform;
 
-import de.unihildesheim.sse.jacat.AbstractJacatPlatform;
-import de.unihildesheim.sse.jacat.addon.AbstractAnalysisCapability;
-import de.unihildesheim.sse.jacat.addon.Addon;
+import de.unihildesheim.sse.jacat.api.AbstractJacatPlatform;
+import de.unihildesheim.sse.jacat.api.addon.task.AbstractAnalysisCapability;
+import de.unihildesheim.sse.jacat.api.addon.Addon;
 import de.unihildesheim.sse.jacat.platform.task.AnalysisAddonRegister;
-import de.unihildesheim.sse.jacat.platform.task.AnalysisAddonMetadata;
 import org.springframework.stereotype.Service;
-
-import java.util.List;
 
 @Service
 public class JacatPlatform extends AbstractJacatPlatform {
@@ -23,7 +20,7 @@ public class JacatPlatform extends AbstractJacatPlatform {
     }
 
     @Override
-    public void registerAnalysisTask(Addon addon, AbstractAnalysisCapability analysisCapability) {
+    public void registerSyncAnalysisTask(Addon addon, AbstractAnalysisCapability analysisCapability) {
         this.analysisAddonRegister.register(addon, analysisCapability);
     }
 

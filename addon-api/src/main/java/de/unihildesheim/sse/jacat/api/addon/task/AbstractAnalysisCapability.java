@@ -1,4 +1,4 @@
-package de.unihildesheim.sse.jacat.addon;
+package de.unihildesheim.sse.jacat.api.addon.task;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -37,19 +37,6 @@ public abstract class AbstractAnalysisCapability {
                 .map(String::toLowerCase)
                 .collect(Collectors.toList());
     }
-
-    /**
-     * Jede Analysefähigkeit muss einen Auslöser für eine neue Analyse
-     * besitzen. Mithilfe dieser Methode startet die Plattform die
-     * Analyse. Dieser Methode wird eine {@link TaskConfiguration}
-     * übergeben, sodass die Analyse parametrisiert gestartet werden
-     * kann.
-     *
-     * TODO: Validierung der TaskConfiguration
-     *
-     * @param configuration Die Analysekonfiguration, die benötigt wird
-     */
-    public abstract void startAnalysis(TaskConfiguration configuration);
 
     /**
      * Gibt die Programmiersprachen zurück, die von dieser Fähigkeit

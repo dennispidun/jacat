@@ -1,8 +1,9 @@
 package de.unihildesheim.sse.jacat.platform.tools;
 
-import de.unihildesheim.sse.jacat.addon.AbstractAnalysisCapability;
-import de.unihildesheim.sse.jacat.addon.Addon;
-import de.unihildesheim.sse.jacat.addon.TaskConfiguration;
+import de.unihildesheim.sse.jacat.api.addon.task.AbstractAnalysisCapability;
+import de.unihildesheim.sse.jacat.api.addon.Addon;
+import de.unihildesheim.sse.jacat.api.addon.task.SyncAnalysisTask;
+import de.unihildesheim.sse.jacat.api.addon.task.TaskConfiguration;
 import de.unihildesheim.sse.jacat.platform.task.AnalysisAddonRegister;
 import org.springframework.web.bind.annotation.*;
 
@@ -44,7 +45,7 @@ public class ToolsController {
                 .filter(addon -> addons.get(addon).getLanguages().contains(language.toLowerCase()))
                 .findFirst();
         if (foundAddon.isPresent()) {
-            AbstractAnalysisCapability capability = addons.get(foundAddon.get());
+            SyncAnalysisTask capability = (SyncAnalysisTask) addons.get(foundAddon.get());
             TaskConfiguration taskConfiguration = new TaskConfiguration(language.toLowerCase(), body);
             capability.startAnalysis(taskConfiguration);
         }

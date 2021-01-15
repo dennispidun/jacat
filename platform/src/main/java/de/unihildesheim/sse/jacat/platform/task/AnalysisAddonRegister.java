@@ -1,7 +1,7 @@
 package de.unihildesheim.sse.jacat.platform.task;
 
-import de.unihildesheim.sse.jacat.addon.AbstractAnalysisCapability;
-import de.unihildesheim.sse.jacat.addon.Addon;
+import de.unihildesheim.sse.jacat.api.addon.task.AbstractAnalysisCapability;
+import de.unihildesheim.sse.jacat.api.addon.Addon;
 import org.springframework.stereotype.Component;
 
 import java.util.HashMap;

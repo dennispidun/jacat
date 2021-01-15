@@ -1,7 +1,7 @@
 package de.unihildesheim.sse.jacat.platform.addon;
 
-import de.unihildesheim.sse.jacat.addon.Addon;
-import de.unihildesheim.sse.jacat.addon.AddonDescription;
+import de.unihildesheim.sse.jacat.api.addon.Addon;
+import de.unihildesheim.sse.jacat.api.addon.AddonDescription;
 import de.unihildesheim.sse.jacat.platform.JacatPlatform;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

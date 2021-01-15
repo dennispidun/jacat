@@ -1,4 +1,4 @@
-package de.unihildesheim.sse.jacat.addon;
+package de.unihildesheim.sse.jacat.api.addon.task;
 
 import java.util.HashMap;
 import java.util.Map;

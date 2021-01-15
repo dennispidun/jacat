@@ -1,6 +1,6 @@
 package me.dennis.test;
 
-import de.unihildesheim.sse.jacat.addon.Addon;
+import de.unihildesheim.sse.jacat.api.addon.Addon;
 
 public class Main extends Addon {
 
@@ -10,7 +10,7 @@ public class Main extends Addon {
     public void onEnable() {
         this.hinter = new HintingAnalysisCapability();
 
-        this.getJacatPlatform().registerAnalysisTask(this, this.hinter);
+        this.getJacatPlatform().registerSyncAnalysisTask(this, this.hinter);
         this.getLogger().info("Addon ist da: " + this.getJacatPlatform().getVersion());
     }
 }

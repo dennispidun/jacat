@@ -1,14 +1,12 @@
 package de.unihildesheim.sse.jacat.platform.tools;
 
-import de.unihildesheim.sse.jacat.addon.AbstractAnalysisCapability;
-import de.unihildesheim.sse.jacat.addon.Addon;
-import de.unihildesheim.sse.jacat.platform.task.AnalysisAddonMetadata;
+import de.unihildesheim.sse.jacat.api.addon.task.AbstractAnalysisCapability;
+import de.unihildesheim.sse.jacat.api.addon.Addon;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Data
 @NoArgsConstructor

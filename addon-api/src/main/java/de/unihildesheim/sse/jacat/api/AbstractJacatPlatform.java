@@ -1,9 +1,7 @@
-package de.unihildesheim.sse.jacat;
+package de.unihildesheim.sse.jacat.api;
 
-import de.unihildesheim.sse.jacat.addon.AbstractAnalysisCapability;
-import de.unihildesheim.sse.jacat.addon.Addon;
-
-import java.util.List;
+import de.unihildesheim.sse.jacat.api.addon.task.AbstractAnalysisCapability;
+import de.unihildesheim.sse.jacat.api.addon.Addon;
 
 /**
  * Diese Klasse beschreibt die Möglichkeiten auf einer
@@ -36,6 +34,6 @@ public abstract class AbstractJacatPlatform {
      *                           ansteht, wird ein entsprechendes
      *                           Addon dafür benachrichtigt.
      */
-    public abstract void registerAnalysisTask(Addon addon, AbstractAnalysisCapability analysisCapability);
+    public abstract void registerSyncAnalysisTask(Addon addon, AbstractAnalysisCapability analysisCapability);
 
 }

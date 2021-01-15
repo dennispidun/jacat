@@ -1,6 +1,6 @@
 package de.unihildesheim.sse.jacat.platform.addon;
 
-import de.unihildesheim.sse.jacat.addon.Addon;
+import de.unihildesheim.sse.jacat.api.addon.Addon;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;

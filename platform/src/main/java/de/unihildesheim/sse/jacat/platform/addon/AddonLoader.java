@@ -1,6 +1,6 @@
 package de.unihildesheim.sse.jacat.platform.addon;
 
-import de.unihildesheim.sse.jacat.addon.AddonDescription;
+import de.unihildesheim.sse.jacat.api.addon.AddonDescription;
 import de.unihildesheim.sse.jacat.platform.JacatPlatform;
 import org.springframework.stereotype.Component;
 import org.yaml.snakeyaml.Yaml;
