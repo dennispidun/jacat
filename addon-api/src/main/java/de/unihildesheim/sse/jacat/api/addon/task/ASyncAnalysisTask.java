@@ -2,9 +2,10 @@ package de.unihildesheim.sse.jacat.api.addon.task;
 
 import java.util.List;
 
-public abstract class SyncAnalysisTask extends AbstractAnalysisCapability {
+public abstract class ASyncAnalysisTask extends AbstractAnalysisCapability {
+
     /**
-     * Dies ist der Standardweg, um eine (synchrone) Analysefähigkeit zu erstellen.
+     * Dies ist der Standardweg, um eine (asynchrone) Analysefähigkeit zu erstellen.
      * Es muss immer der Slug und die Sprachen angegeben werden. Diese
      * dürfen nicht null sein und dürfen nicht leer sein. Sowohl Slug
      * als auch die Programmiersprachen werden in LowerCase gespeichert.
@@ -16,7 +17,7 @@ public abstract class SyncAnalysisTask extends AbstractAnalysisCapability {
      *                  keine Umlaute oder Zahlen verwenden.
      * @param languages Die Sprachen, welche die Analyse abdecken kann.
      */
-    public SyncAnalysisTask(String slug, List<String> languages) {
+    public ASyncAnalysisTask(String slug, List<String> languages) {
         super(slug, languages);
     }
 
@@ -29,11 +30,12 @@ public abstract class SyncAnalysisTask extends AbstractAnalysisCapability {
      * übergeben, sodass die Analyse parametrisiert gestartet werden
      * kann.
      *
-     * TODO: Validierung der TaskConfiguration
+     * Zusätzlich wird ein TaskCompleter mitgegeben, welcher benutzt
+     * werden kann um der Plattform mitzuteilen, dass das Addon mit
+     * der Analyse fertig ist
      *
-     * @param configuration Die Analysekonfiguration, die benötigt wird
-     * @return Ein zur Laufzeit erstelltes Analyseergebnis, welches
-     *         abhängig von der Implementierung des Analysetask ist.
+     * @param request der Request, welcher die Daten der
+     *                      AnalyseAnfrage beinhaltet
      */
-    public abstract TaskResult startAnalysis(AnalysisRequest configuration);
+    public abstract void startAnalysis(AnalysisRequest request, FinishCallback finish);
 }

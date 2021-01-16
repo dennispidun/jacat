@@ -9,28 +9,28 @@ import java.util.Map;
  * zusätzlich ein Mapping von Parametern, die für die Analyse wichtig
  * sind.
  */
-public class TaskConfiguration {
+public class AnalysisRequest {
 
-    private Map<String, Object> task;
+    private Map<String, Object> request;
 
     /**
-     * Hauptkonstruktor für die Erstellung der TaskConfiguration.
+     * Hauptkonstruktor für die Erstellung des AnalysisRequests.
      * Beinhaltet die Sprache und die Parameter des Tasks selbst
      *
      * @param language Die Programmiersprache, die analysiert werden soll
-     * @param task Ein Mapping mit den Einstellungen für einen Task
+     * @param request Ein Mapping mit den Einstellungen für einen Task
      */
-    public TaskConfiguration(String language, Map<String, Object> task) {
-        this.task = task;
-        if (this.task == null) {
-            this.task = new HashMap<>();
+    public AnalysisRequest(String language, Map<String, Object> request) {
+        this.request = request;
+        if (this.request == null) {
+            this.request = new HashMap<>();
         }
 
         // unschlüssig, ob dies so Sinn ergibt
-        this.task.put("language", language);
+        this.request.put("language", language);
     }
 
-    public Map<String, Object> getTask() {
-        return task;
+    public Map<String, Object> getRequest() {
+        return request;
     }
 }

@@ -37,7 +37,12 @@ public class AddonClassLoader extends URLClassLoader {
             setCustomValue(addon, DESCRIPTION_FIELD_NAME, addonDescription);
             setCustomValue(addon, LOGGER_FIELD_NAME, LoggerFactory.getLogger(loggerName));
 
-            ((Addon) addon).onEnable();
+            try {
+                ((Addon) addon).onEnable();
+            } catch (AnalysisCapabilityAlreadyRegisteredException e) {
+                this.logger.error(e.getMessage());
+                this.logger.error("Ignoring this capability.");
+            }
 
             this.addon = (Addon) addon;
 

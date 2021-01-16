@@ -2,9 +2,7 @@ package de.unihildesheim.sse.jacat.platform.tools;
 
 import de.unihildesheim.sse.jacat.api.addon.task.AbstractAnalysisCapability;
 import de.unihildesheim.sse.jacat.api.addon.Addon;
-import de.unihildesheim.sse.jacat.api.addon.task.SyncAnalysisTask;
-import de.unihildesheim.sse.jacat.api.addon.task.TaskConfiguration;
-import de.unihildesheim.sse.jacat.platform.task.AnalysisAddonRegister;
+import de.unihildesheim.sse.jacat.platform.task.AnalysisCapabilities;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.*;
@@ -14,10 +12,10 @@ import java.util.stream.Collectors;
 @RequestMapping("/api/v0/tools")
 public class ToolsController {
 
-    private AnalysisAddonRegister analysisAddonRegister;
+    private AnalysisCapabilities analysisCapabilities;
 
-    public ToolsController(AnalysisAddonRegister analysisAddonRegister) {
-        this.analysisAddonRegister = analysisAddonRegister;
+    public ToolsController(AnalysisCapabilities analysisCapabilities) {
+        this.analysisCapabilities = analysisCapabilities;
     }
 
     // GET List<Tool> listTools()                                   /api/v0/tools
@@ -27,28 +25,13 @@ public class ToolsController {
     @GetMapping
     public List<ListToolDto> listTools(@RequestParam("language") Optional<String> clanguage,
                                 @RequestParam("slug") Optional<String> slug) {
-        Map<Addon, AbstractAnalysisCapability> addonsWithMetadata = this.analysisAddonRegister.getAddons();
-        Set<Addon> addons = addonsWithMetadata.keySet();
-        return addons.stream()
-                .map(addon -> new ListToolDto(addon, addonsWithMetadata.get(addon)))
+        Map<AbstractAnalysisCapability, Addon> capabilities = this.analysisCapabilities.getCapabilities();
+        return capabilities.keySet()
+                .stream()
+                .map(capability -> new ListToolDto(capabilities.get(capability), capability))
                 .filter(addon -> clanguage.isEmpty() || addon.getLanguages().contains(clanguage.get().toLowerCase()))
                 .filter(addon -> slug.isEmpty() || addon.getSlug().equalsIgnoreCase(slug.get()))
                 .collect(Collectors.toList());
-    }
-
-    @PostMapping("/{slug}/analysis")
-    public void startAnalysis(@PathVariable("slug") String slug,
-                              @RequestParam("language") String language,
-                              @RequestBody Map<String, Object> body) {
-        Map<Addon, AbstractAnalysisCapability> addons = this.analysisAddonRegister.getAddons();
-        Optional<Addon> foundAddon = this.analysisAddonRegister.getAddons(slug).stream()
-                .filter(addon -> addons.get(addon).getLanguages().contains(language.toLowerCase()))
-                .findFirst();
-        if (foundAddon.isPresent()) {
-            SyncAnalysisTask capability = (SyncAnalysisTask) addons.get(foundAddon.get());
-            TaskConfiguration taskConfiguration = new TaskConfiguration(language.toLowerCase(), body);
-            capability.startAnalysis(taskConfiguration);
-        }
     }
 
     @GetMapping("/types")

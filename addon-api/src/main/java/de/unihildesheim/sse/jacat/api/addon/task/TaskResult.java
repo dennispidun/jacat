@@ -17,4 +17,11 @@ public class TaskResult {
     public Object get(String key) {
         return this.result.get(key);
     }
+
+    @Override
+    public String toString() {
+        return "TaskResult{" +
+                "result=" + result +
+                '}';
+    }
 }

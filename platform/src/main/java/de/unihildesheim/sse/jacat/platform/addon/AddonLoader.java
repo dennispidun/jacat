@@ -2,12 +2,15 @@ package de.unihildesheim.sse.jacat.platform.addon;
 
 import de.unihildesheim.sse.jacat.api.addon.AddonDescription;
 import de.unihildesheim.sse.jacat.platform.JacatPlatform;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 import org.yaml.snakeyaml.Yaml;
 
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
+import java.net.MalformedURLException;
 import java.util.Enumeration;
 import java.util.Map;
 import java.util.jar.JarEntry;
@@ -18,6 +21,8 @@ public class AddonLoader {
 
     private JacatPlatform jacatPlatform;
     private AddonManager addonManager;
+
+    private Logger logger = LoggerFactory.getLogger(this.getClass());
 
     public AddonLoader(JacatPlatform jacatPlatform, AddonManager addonManager) {
         this.jacatPlatform = jacatPlatform;
@@ -49,10 +54,10 @@ public class AddonLoader {
 
         try {
             AddonClassLoader classLoader = new AddonClassLoader(file, addonDescription, this.jacatPlatform);
-
             this.addonManager.addAddon(classLoader.getLoadedAddon());
-        } catch (Exception e) {
-            e.printStackTrace();
+        } catch (AddonNotLoadableException | MalformedURLException e) {
+            this.logger.error("Could not load addon: " + addonDescription.getName() + " - " + file.getAbsolutePath());
+            this.logger.error("Cause: " + e.getMessage());
         }
     }
 

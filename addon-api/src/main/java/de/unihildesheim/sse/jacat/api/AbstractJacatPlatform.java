@@ -1,7 +1,9 @@
 package de.unihildesheim.sse.jacat.api;
 
+import de.unihildesheim.sse.jacat.api.addon.task.ASyncAnalysisTask;
 import de.unihildesheim.sse.jacat.api.addon.task.AbstractAnalysisCapability;
 import de.unihildesheim.sse.jacat.api.addon.Addon;
+import de.unihildesheim.sse.jacat.api.addon.task.SyncAnalysisTask;
 
 /**
  * Diese Klasse beschreibt die Möglichkeiten auf einer
@@ -22,18 +24,34 @@ public abstract class AbstractJacatPlatform {
     public abstract String getVersion();
 
     /**
-     * Hiermit kann ein Analyse Task registriert werden. Es ist
+     * Hiermit kann ein synchrone Analyse Task registriert werden. Es ist
      * nicht vorgesehen, dass ein Addon mehrere Analysetasks
      * registriert. Daher muss sichergestellt werden, dass die
      * AnalyseFähigkeit (AnalysisCapability) die gewünschte
      * Analyse vollständig abdecken kann.
      *
      * @param addon Muss das laufende Addon sein
-     * @param analysisCapability Beschreibt die Fähigkeit, die eine
+     * @param syncTask Beschreibt die Fähigkeit, die eine
      *                           Analyse besitzt. Wenn eine Analyse
      *                           ansteht, wird ein entsprechendes
      *                           Addon dafür benachrichtigt.
      */
-    public abstract void registerSyncAnalysisTask(Addon addon, AbstractAnalysisCapability analysisCapability);
+    public abstract void registerAnalysisTask(Addon addon, SyncAnalysisTask syncTask);
+
+    /**
+     * Hiermit kann ein asynchrone Analyse Task registriert werden. Es ist
+     * nicht vorgesehen, dass ein Addon mehrere Analysetasks
+     * registriert. Daher muss sichergestellt werden, dass die
+     * AnalyseFähigkeit (AnalysisCapability) die gewünschte
+     * Analyse vollständig abdecken kann.
+     *
+     * @param addon Muss das laufende Addon sein
+     * @param aSyncAnalysisTask Beschreibt die Fähigkeit, die eine
+     *                          Analyse besitzt. Wenn eine Analyse
+     *                          ansteht, wird ein entsprechendes
+     *                          Addon dafür benachrichtigt.
+     */
+    public abstract void registerAnalysisTask(Addon addon, ASyncAnalysisTask aSyncAnalysisTask);
+
 
 }

@@ -23,6 +23,10 @@ public class AddonManager {
         this.addons.add(addon);
     }
 
+    public boolean isEnabled(Addon addon) {
+        return this.addons.contains(addon);
+    }
+
     @Override
     public String toString() {
         return "AddonManager{" +
