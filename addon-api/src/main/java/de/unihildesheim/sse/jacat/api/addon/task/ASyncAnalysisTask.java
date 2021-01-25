@@ -37,5 +37,5 @@ public abstract class ASyncAnalysisTask extends AbstractAnalysisCapability {
      * @param request der Request, welcher die Daten der
      *                      AnalyseAnfrage beinhaltet
      */
-    public abstract void startAnalysis(AnalysisRequest request, FinishCallback finish);
+    public abstract TaskResult startAnalysis(AnalysisRequest request);
 }

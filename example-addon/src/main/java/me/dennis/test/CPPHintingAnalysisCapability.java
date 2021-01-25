@@ -13,7 +13,7 @@ public class CPPHintingAnalysisCapability extends ASyncAnalysisTask {
     }
 
     @Override
-    public void startAnalysis(AnalysisRequest request, FinishCallback finish) {
+    public TaskResult startAnalysis(AnalysisRequest request) {
         System.out.println("New Task");
         System.out.println(request.getRequest());
 
@@ -21,22 +21,22 @@ public class CPPHintingAnalysisCapability extends ASyncAnalysisTask {
         Map<String, Object> response = new HashMap<>();
         task.keySet().forEach(key -> {
             response.put(key.replace("a", "b")
-                    .replace("c", "d")
-                    .replace("e", "f")
-                    .replace("g", "h")
-                    .replace("i", "j")
-                    .replace("k", "l")
-                    .replace("m", "n")
-                    .replace("o", "p")
-                    .replace("q", "r")
-                    .replace("s", "t")
-                    .replace("u", "v")
-                    .replace("w", "x")
-                    .replace("y", "z")
+                            .replace("c", "d")
+                            .replace("e", "f")
+                            .replace("g", "h")
+                            .replace("i", "j")
+                            .replace("k", "l")
+                            .replace("m", "n")
+                            .replace("o", "p")
+                            .replace("q", "r")
+                            .replace("s", "t")
+                            .replace("u", "v")
+                            .replace("w", "x")
+                            .replace("y", "z")
                     , task.get(key));
         });
 
         TaskResult result = new TaskResult(response);
-        finish.finish(result);
+        return result;
     }
 }
