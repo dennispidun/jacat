@@ -2,5 +2,8 @@ spring:
   data:
     mongodb:
       authentication-database: admin
-      uri: mongodb://root:example@127.0.0.1
+      uri: mongodb://127.0.0.1
       database: jacat
+  batch:
+    job:
+      enabled: false

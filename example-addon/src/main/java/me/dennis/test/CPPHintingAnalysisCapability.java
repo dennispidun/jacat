@@ -14,6 +14,15 @@ public class CPPHintingAnalysisCapability extends ASyncAnalysisTask {
 
     @Override
     public TaskResult startAnalysis(AnalysisRequest request) {
+        int sek = (int) (Math.random() * 50 + 10);
+
+
+
+        try {
+            Thread.sleep(1000 * sek);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
         System.out.println("New Task");
         System.out.println(request.getRequest());
 

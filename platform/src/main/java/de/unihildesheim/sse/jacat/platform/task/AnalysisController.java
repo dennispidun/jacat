@@ -1,37 +1,37 @@
 package de.unihildesheim.sse.jacat.platform.task;
 
 import de.unihildesheim.sse.jacat.api.addon.task.*;
-import org.springframework.batch.core.Job;
-import org.springframework.batch.core.JobParameter;
-import org.springframework.batch.core.JobParameters;
-import org.springframework.batch.core.launch.JobLauncher;
-import org.springframework.beans.factory.annotation.Qualifier;
+import de.unihildesheim.sse.jacat.platform.task.queue.TaskQueue;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.HashMap;
 import java.util.Map;
+import java.util.Optional;
 
 @RestController
-@RequestMapping("/api/v0/tools/{slug}/analysis")
+@RequestMapping("/api/v0/analysis")
 public class AnalysisController {
 
     private AnalysisCapabilities analysisCapabilities;
     private AnalysisTaskRepository analysisTaskRepository;
-    private JobLauncher jobLauncher;
-    private Job asyncAnalysisTask;
+
+    private TaskQueue taskQueue;
 
     public AnalysisController(AnalysisCapabilities analysisCapabilities,
                               AnalysisTaskRepository analysisTaskRepository,
-                              JobLauncher jobLauncher,
-                              @Qualifier("asyncAnalysisTask") Job asyncAnalysisTask) {
+                              TaskQueue taskQueue) {
         this.analysisCapabilities = analysisCapabilities;
         this.analysisTaskRepository = analysisTaskRepository;
-        this.jobLauncher = jobLauncher;
-        this.asyncAnalysisTask = asyncAnalysisTask;
+        this.taskQueue = taskQueue;
+    }
+
+    @GetMapping("/{id}")
+    public AnalysisTaskResult getAnalysisResult(@PathVariable("id") String id) {
+        Optional<AnalysisTask> byId = this.analysisTaskRepository.findById(id);
+        return byId.map(AnalysisTaskResult::new).orElse(null);
     }
 
     @PostMapping()
-    public AnalysisTaskResult startAnalysis(@PathVariable("slug") String slug,
+    public AnalysisTaskResult startAnalysis(@RequestParam("slug") String slug,
                                     @RequestParam("language") String language,
                                     @RequestBody Map<String, Object> request) {
         AbstractAnalysisCapability capability = this.analysisCapabilities.getCapability(slug, language);
@@ -40,22 +40,20 @@ public class AnalysisController {
             AnalysisRequest analysisRequest = new AnalysisRequest(language.toLowerCase(), request);
 
             AnalysisTask analysisTask = new AnalysisTask();
-            analysisTask.setStatus(TaskJobStatus.STARTED);
+            analysisTask.setStatus(TaskJobStatus.ACCEPTED);
             analysisTask.setRequest(analysisRequest.getRequest());
 
+            analysisTask = this.analysisTaskRepository.save(analysisTask);
             if (capability instanceof SyncAnalysisTask) {
                 SyncAnalysisTask syncCapability = (SyncAnalysisTask) capability;
                 TaskResult result = syncCapability.startAnalysis(analysisRequest);
                 analysisTask.setResponse(result.getResult());
                 analysisTask.setStatus(TaskJobStatus.SUCCESSFUL);
-            }
 
-            analysisTask = this.analysisTaskRepository.save(analysisTask);
-//            JobParameter parameter = new JobParameter(analysisTask.getId());
-//            Map<String, JobParameter> parameterMap = new HashMap<>();
-//            parameterMap.put("id", parameter);
-//            JobParameters jobParameters = new JobParameters(parameterMap);
-//            jobLauncher.run(asyncAnalysisTask, jobParameters);
+                analysisTask = this.analysisTaskRepository.save(analysisTask);
+            } else {
+                this.taskQueue.queue(analysisTask);
+            }
 
             return new AnalysisTaskResult(analysisTask);
 
