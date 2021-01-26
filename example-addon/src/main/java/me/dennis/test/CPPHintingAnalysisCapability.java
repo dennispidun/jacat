@@ -1,6 +1,8 @@
 package me.dennis.test;
 
-import de.unihildesheim.sse.jacat.api.addon.task.*;
+import net.ssehub.jacat.api.addon.task.ASyncAnalysisTask;
+import net.ssehub.jacat.api.addon.task.AnalysisRequest;
+import net.ssehub.jacat.api.addon.task.TaskResult;
 
 import java.util.Arrays;
 import java.util.HashMap;
@@ -15,8 +17,6 @@ public class CPPHintingAnalysisCapability extends ASyncAnalysisTask {
     @Override
     public TaskResult startAnalysis(AnalysisRequest request) {
         int sek = (int) (Math.random() * 50 + 10);
-
-
 
         try {
             Thread.sleep(1000 * sek);

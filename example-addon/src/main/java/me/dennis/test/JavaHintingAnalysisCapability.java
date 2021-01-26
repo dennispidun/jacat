@@ -1,8 +1,8 @@
 package me.dennis.test;
 
-import de.unihildesheim.sse.jacat.api.addon.task.AnalysisRequest;
-import de.unihildesheim.sse.jacat.api.addon.task.SyncAnalysisTask;
-import de.unihildesheim.sse.jacat.api.addon.task.TaskResult;
+import net.ssehub.jacat.api.addon.task.AnalysisRequest;
+import net.ssehub.jacat.api.addon.task.SyncAnalysisTask;
+import net.ssehub.jacat.api.addon.task.TaskResult;
 
 import java.util.Arrays;
 import java.util.HashMap;

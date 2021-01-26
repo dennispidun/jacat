@@ -1,6 +1,6 @@
 package me.dennis.test;
 
-import de.unihildesheim.sse.jacat.api.addon.Addon;
+import net.ssehub.jacat.api.addon.Addon;
 
 public class Main extends Addon {
 
