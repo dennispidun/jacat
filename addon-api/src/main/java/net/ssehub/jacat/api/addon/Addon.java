@@ -12,7 +12,7 @@ import java.util.Objects;
  */
 public abstract class Addon {
 
-    private AbstractJacatWorker platform;
+    private AbstractJacatWorker worker;
     private AddonDescription description;
     private Logger logger;
 
@@ -29,7 +29,7 @@ public abstract class Addon {
      * @return Laufende JacatPlatform
      */
     public AbstractJacatWorker getJacatPlatform() {
-        return platform;
+        return worker;
     }
 
     /**

@@ -1,17 +1,17 @@
 package me.dennis.test;
 
-import net.ssehub.jacat.api.addon.task.ASyncAnalysisTask;
+import net.ssehub.jacat.api.addon.task.AbstractAnalysisCapability;
 import net.ssehub.jacat.api.addon.task.AnalysisRequest;
 import net.ssehub.jacat.api.addon.task.TaskResult;
 
-import java.util.Arrays;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
-public class CPPHintingAnalysisCapability extends ASyncAnalysisTask {
+public class CPPHintingAnalysisCapability extends AbstractAnalysisCapability {
 
     public CPPHintingAnalysisCapability() {
-        super("hinting", Arrays.asList("c++"));
+        super("hinting", List.of("c++"), 0.1F);
     }
 
     @Override
@@ -19,7 +19,7 @@ public class CPPHintingAnalysisCapability extends ASyncAnalysisTask {
         int sek = (int) (Math.random() * 50 + 10);
 
         try {
-            Thread.sleep(1000 * sek);
+            Thread.sleep(1000L * sek);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }

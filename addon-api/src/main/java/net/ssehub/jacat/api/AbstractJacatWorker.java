@@ -1,8 +1,7 @@
 package net.ssehub.jacat.api;
 
-import net.ssehub.jacat.api.addon.task.ASyncAnalysisTask;
 import net.ssehub.jacat.api.addon.Addon;
-import net.ssehub.jacat.api.addon.task.SyncAnalysisTask;
+import net.ssehub.jacat.api.addon.task.AbstractAnalysisCapability;
 
 /**
  * Diese Klasse beschreibt die Möglichkeiten auf einer
@@ -23,7 +22,7 @@ public abstract class AbstractJacatWorker {
     public abstract String getVersion();
 
     /**
-     * Hiermit kann ein synchrone Analyse Task registriert werden. Es ist
+     * Hiermit kann ein Analyse Task registriert werden. Es ist
      * nicht vorgesehen, dass ein Addon mehrere Analysetasks
      * registriert. Daher muss sichergestellt werden, dass die
      * AnalyseFähigkeit (AnalysisCapability) die gewünschte
@@ -35,22 +34,7 @@ public abstract class AbstractJacatWorker {
      *                           ansteht, wird ein entsprechendes
      *                           Addon dafür benachrichtigt.
      */
-    public abstract void registerAnalysisTask(Addon addon, SyncAnalysisTask syncTask);
-
-    /**
-     * Hiermit kann ein asynchrone Analyse Task registriert werden. Es ist
-     * nicht vorgesehen, dass ein Addon mehrere Analysetasks
-     * registriert. Daher muss sichergestellt werden, dass die
-     * AnalyseFähigkeit (AnalysisCapability) die gewünschte
-     * Analyse vollständig abdecken kann.
-     *
-     * @param addon Muss das laufende Addon sein
-     * @param aSyncAnalysisTask Beschreibt die Fähigkeit, die eine
-     *                          Analyse besitzt. Wenn eine Analyse
-     *                          ansteht, wird ein entsprechendes
-     *                          Addon dafür benachrichtigt.
-     */
-    public abstract void registerAnalysisTask(Addon addon, ASyncAnalysisTask aSyncAnalysisTask);
+    public abstract void registerAnalysisTask(Addon addon, AbstractAnalysisCapability syncTask);
 
 
 }

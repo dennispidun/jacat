@@ -17,7 +17,7 @@ public abstract class AbstractAnalysisCapability {
 
     private final String slug;
     private final List<String> languages;
-
+    private final double scheduleFactor;
     /**
      * Dies ist der Standardweg, um eine Analysefähigkeit zu erstellen.
      * Es muss immer der Slug und die Sprachen angegeben werden. Diese
@@ -25,17 +25,22 @@ public abstract class AbstractAnalysisCapability {
      * als auch die Programmiersprachen werden in LowerCase gespeichert.
      * Hierdurch wird das Auffinden, der Analysefähigkeit durch die
      * Plattform unterstützt.
-     *
-     * @param slug Der Slug unter der die Analyse gefunden werden soll.
+     *  @param slug Der Slug unter der die Analyse gefunden werden soll.
      *             Dieser darf maximal aus einem Wort bestehen und sollte
      *             keine Umlaute oder Zahlen verwenden.
      * @param languages Die Sprachen, welche die Analyse abdecken kann.
+     * @param scheduleFactor
      */
-    public AbstractAnalysisCapability(String slug, List<String> languages) {
+    public AbstractAnalysisCapability(String slug, List<String> languages, double scheduleFactor) {
         this.slug = slug;
         this.languages = languages.stream()
                 .map(String::toLowerCase)
                 .collect(Collectors.toList());
+        this.scheduleFactor = scheduleFactor;
+    }
+
+    public double getScheduleFactor() {
+        return scheduleFactor;
     }
 
     /**
@@ -45,7 +50,7 @@ public abstract class AbstractAnalysisCapability {
      * @return Alle Programmiersprachen, die angelegt wurden
      */
     public List<String> getLanguages() {
-        return languages;
+        return this.languages;
     }
 
     /**
@@ -56,6 +61,22 @@ public abstract class AbstractAnalysisCapability {
      * @return Slug der Analysefähigkeit
      */
     public String getSlug() {
-        return slug;
+        return this.slug;
     }
+
+    /**
+     * Jede Analysefähigkeit muss einen Auslöser für eine neue Analyse
+     * besitzen. Mithilfe dieser Methode startet die Plattform die
+     * Analyse. Dieser Methode wird eine {@link AnalysisRequest}
+     * übergeben, sodass die Analyse parametrisiert gestartet werden
+     * kann.
+     *
+     * TODO: Validierung der TaskConfiguration
+     *
+     * @param configuration Die Analysekonfiguration, die benötigt wird
+     * @return Ein zur Laufzeit erstelltes Analyseergebnis, welches
+     *         abhängig von der Implementierung des Analysetask ist.
+     */
+    public abstract TaskResult startAnalysis(AnalysisRequest configuration);
+
 }

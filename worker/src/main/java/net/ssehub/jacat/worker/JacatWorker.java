@@ -2,10 +2,8 @@ package net.ssehub.jacat.worker;
 
 import net.ssehub.jacat.api.AbstractJacatWorker;
 import net.ssehub.jacat.api.addon.Addon;
-import net.ssehub.jacat.api.addon.task.ASyncAnalysisTask;
 import net.ssehub.jacat.api.addon.task.AbstractAnalysisCapability;
-import net.ssehub.jacat.api.addon.task.SyncAnalysisTask;
-import net.ssehub.jacat.worker.analysis.AnalysisCapabilities;
+import net.ssehub.jacat.worker.analysis.capabilities.AnalysisCapabilities;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -24,18 +22,9 @@ public class JacatWorker extends AbstractJacatWorker {
     }
 
     @Override
-    public void registerAnalysisTask(Addon addon, SyncAnalysisTask syncTask) {
-        this.registerAnAnalysisTask(addon, syncTask);
-    }
-
-    @Override
-    public void registerAnalysisTask(Addon addon, ASyncAnalysisTask asyncTask) {
-        this.registerAnAnalysisTask(addon, asyncTask);
-    }
-
-    private void registerAnAnalysisTask(Addon addon, AbstractAnalysisCapability analysisCapability) {
-        this.checkAlreadyRegistered(analysisCapability.getSlug(), analysisCapability.getLanguages());
-        this.analysisCapabilities.register(addon, analysisCapability);
+    public void registerAnalysisTask(Addon addon, AbstractAnalysisCapability capability) {
+        this.checkAlreadyRegistered(capability.getSlug(), capability.getLanguages());
+        this.analysisCapabilities.register(addon, capability);
     }
 
     private void checkAlreadyRegistered(String slug, List<String> languages) {

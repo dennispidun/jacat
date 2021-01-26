@@ -1,4 +1,4 @@
-package net.ssehub.jacat.worker.analysis;
+package net.ssehub.jacat.platform.analysis;
 
 import org.springframework.data.mongodb.repository.MongoRepository;
 import org.springframework.stereotype.Repository;

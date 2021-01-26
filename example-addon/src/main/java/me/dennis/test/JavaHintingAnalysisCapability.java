@@ -1,17 +1,17 @@
 package me.dennis.test;
 
+import net.ssehub.jacat.api.addon.task.AbstractAnalysisCapability;
 import net.ssehub.jacat.api.addon.task.AnalysisRequest;
-import net.ssehub.jacat.api.addon.task.SyncAnalysisTask;
 import net.ssehub.jacat.api.addon.task.TaskResult;
 
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 
-public class JavaHintingAnalysisCapability extends SyncAnalysisTask {
+public class JavaHintingAnalysisCapability extends AbstractAnalysisCapability {
 
     public JavaHintingAnalysisCapability() {
-        super("hinting", Arrays.asList("Java"));
+        super("hinting", Arrays.asList("Java"), 1.0);
     }
 
     @Override

@@ -3,7 +3,6 @@ package net.ssehub.jacat.worker.addon;
 import net.ssehub.jacat.api.addon.Addon;
 import net.ssehub.jacat.api.addon.AddonDescription;
 import net.ssehub.jacat.worker.JacatWorker;
-import net.ssehub.jacat.worker.analysis.AnalysisCapabilities;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

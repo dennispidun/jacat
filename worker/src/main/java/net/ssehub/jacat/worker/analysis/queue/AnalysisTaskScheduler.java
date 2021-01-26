@@ -1,45 +1,46 @@
 package net.ssehub.jacat.worker.analysis.queue;
 
 import net.ssehub.jacat.worker.analysis.AnalysisTask;
-import net.ssehub.jacat.worker.analysis.AnalysisTaskRepository;
 import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
-import java.util.List;
+import java.util.Queue;
+import java.util.concurrent.ArrayBlockingQueue;
+import java.util.concurrent.atomic.AtomicInteger;
 
 @Component
 @EnableScheduling
 public class AnalysisTaskScheduler {
 
-    private TaskQueue queue;
-    private AnalysisTaskRepository taskRepository;
+    private Queue<AnalysisTask> queue;
     private AnalysisTaskExecutor analysisTaskExecutor;
 
-    public AnalysisTaskScheduler(TaskQueue queue,
-                                 AnalysisTaskRepository taskRepository,
-                                 AnalysisTaskExecutor analysisTaskExecutor) {
-        this.queue = queue;
-        this.taskRepository = taskRepository;
+    private AtomicInteger currentProcesses = new AtomicInteger(0);
+
+    public AnalysisTaskScheduler(AnalysisTaskExecutor analysisTaskExecutor) {
+        this.queue = new ArrayBlockingQueue<>(10);
         this.analysisTaskExecutor = analysisTaskExecutor;
     }
 
-    @Scheduled(cron = "*/5 * * * * *")
-    private void scheduleTasks() {
-        List<AnalysisTask> tasks = this.taskRepository.findAllByStatus(AnalysisTask.Status.QUEUED);
-        tasks.stream().limit(10).forEach(this.queue::queue);
+    public boolean trySchedule(AnalysisTask task) {
+        return this.queue.offer(task);
     }
 
     @Scheduled(cron = "*/1 * * * * *")
     private void executeTasks() {
+        if (this.currentProcesses.get() >= 5) {
+            return;
+        }
+
         AnalysisTask task = this.queue.poll();
         if (task != null) {
-            this.analysisTaskExecutor.process(task);
+            this.currentProcesses.incrementAndGet();
+            this.analysisTaskExecutor.process(task, () -> this.currentProcesses.decrementAndGet());
         }
     }
 
-
-
-
-
+    protected static interface FinishCallback {
+        void finish();
+    }
 }

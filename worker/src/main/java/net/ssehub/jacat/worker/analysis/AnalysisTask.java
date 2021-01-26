@@ -1,34 +1,44 @@
 package net.ssehub.jacat.worker.analysis;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.util.Map;
 
-@Document
-@Data
+@RequiredArgsConstructor
 @AllArgsConstructor
 @NoArgsConstructor
+@Getter
 public class AnalysisTask {
 
-    @Id
+    @NonNull
     private String id;
 
     private Status status;
 
+    private String slug;
+
+    private String language;
+
+    @NonNull
     private Map<String, Object> request;
+
     private Map<String, Object> response;
 
-    public enum Status {
+    public void setSuccessfulResponse(Map<String, Object> response) {
+        this.status = Status.SUCCESSFUL;
+        this.response = response;
+    }
 
-        QUEUED(),
-        RUNNING(),
+    public void setFailedResponse(Map<String, Object> response) {
+        this.status = Status.FAILED;
+        this.response = response;
+    }
+
+    public enum Status {
         SUCCESSFUL(),
         FAILED()
-
     }
 
 

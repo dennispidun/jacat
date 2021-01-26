@@ -1,7 +1,8 @@
-package net.ssehub.jacat.worker.analysis;
+package net.ssehub.jacat.worker.analysis.capabilities;
 
 import net.ssehub.jacat.api.addon.task.AbstractAnalysisCapability;
 import net.ssehub.jacat.api.addon.Addon;
+import net.ssehub.jacat.worker.analysis.AnalysisTask;
 import net.ssehub.jacat.worker.error.ApplicationRuntimeException;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Component;
@@ -24,10 +25,6 @@ public class AnalysisCapabilities {
         return this.capabilities;
     }
 
-    public boolean isRegistered(Addon addon) {
-        return this.capabilities.containsValue(addon);
-    }
-
     public boolean isRegistered(String slug, String language) {
         try {
             return this.getCapability(slug, language) != null;
@@ -41,6 +38,10 @@ public class AnalysisCapabilities {
                 .stream()
                 .filter(capability -> capability.getSlug().equalsIgnoreCase(slug))
                 .collect(Collectors.toList());
+    }
+
+    public AbstractAnalysisCapability getCapability(AnalysisTask analysisTask) {
+        return this.getCapability(analysisTask.getSlug(), analysisTask.getLanguage());
     }
 
     public AbstractAnalysisCapability getCapability(String slug, String language) {
