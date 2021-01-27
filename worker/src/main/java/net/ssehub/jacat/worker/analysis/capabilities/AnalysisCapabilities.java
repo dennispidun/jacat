@@ -2,9 +2,7 @@ package net.ssehub.jacat.worker.analysis.capabilities;
 
 import net.ssehub.jacat.api.addon.task.AbstractAnalysisCapability;
 import net.ssehub.jacat.api.addon.Addon;
-import net.ssehub.jacat.worker.analysis.AnalysisTask;
-import net.ssehub.jacat.worker.error.ApplicationRuntimeException;
-import org.springframework.http.HttpStatus;
+import net.ssehub.jacat.api.addon.task.Task;
 import org.springframework.stereotype.Component;
 
 import java.util.HashMap;
@@ -40,8 +38,8 @@ public class AnalysisCapabilities {
                 .collect(Collectors.toList());
     }
 
-    public AbstractAnalysisCapability getCapability(AnalysisTask analysisTask) {
-        return this.getCapability(analysisTask.getSlug(), analysisTask.getLanguage());
+    public AbstractAnalysisCapability getCapability(Task task) {
+        return this.getCapability(task.getSlug(), task.getLanguage());
     }
 
     public AbstractAnalysisCapability getCapability(String slug, String language) {
@@ -53,11 +51,11 @@ public class AnalysisCapabilities {
                 .orElseThrow(() -> new CapabilityNotFoundException(slug, language));
     }
 
-    private static class CapabilityNotFoundException extends ApplicationRuntimeException {
+    private static class CapabilityNotFoundException extends RuntimeException {
         public CapabilityNotFoundException(String slug, String language) {
             super("The desired capability (slug=\"" +
                     slug + "\", language=\"" + language +
-                    "\" could not be found.", HttpStatus.NOT_FOUND);
+                    "\" could not be found.");
         }
     }
 

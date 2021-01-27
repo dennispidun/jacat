@@ -67,7 +67,7 @@ public abstract class AbstractAnalysisCapability {
     /**
      * Jede Analysefähigkeit muss einen Auslöser für eine neue Analyse
      * besitzen. Mithilfe dieser Methode startet die Plattform die
-     * Analyse. Dieser Methode wird eine {@link AnalysisRequest}
+     * Analyse. Dieser Methode wird eine {@link Task}
      * übergeben, sodass die Analyse parametrisiert gestartet werden
      * kann.
      *
@@ -77,6 +77,6 @@ public abstract class AbstractAnalysisCapability {
      * @return Ein zur Laufzeit erstelltes Analyseergebnis, welches
      *         abhängig von der Implementierung des Analysetask ist.
      */
-    public abstract TaskResult startAnalysis(AnalysisRequest configuration);
+    public abstract Task run(Task configuration);
 
 }

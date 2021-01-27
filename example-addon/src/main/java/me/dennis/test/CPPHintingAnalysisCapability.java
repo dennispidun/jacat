@@ -1,8 +1,7 @@
 package me.dennis.test;
 
 import net.ssehub.jacat.api.addon.task.AbstractAnalysisCapability;
-import net.ssehub.jacat.api.addon.task.AnalysisRequest;
-import net.ssehub.jacat.api.addon.task.TaskResult;
+import net.ssehub.jacat.api.addon.task.Task;
 
 import java.util.HashMap;
 import java.util.List;
@@ -15,7 +14,7 @@ public class CPPHintingAnalysisCapability extends AbstractAnalysisCapability {
     }
 
     @Override
-    public TaskResult startAnalysis(AnalysisRequest request) {
+    public Task run(Task request) {
         int sek = (int) (Math.random() * 50 + 10);
 
         try {
@@ -45,7 +44,7 @@ public class CPPHintingAnalysisCapability extends AbstractAnalysisCapability {
                     , task.get(key));
         });
 
-        TaskResult result = new TaskResult(response);
-        return result;
+        request.setSuccessfulResult(response);
+        return request;
     }
 }

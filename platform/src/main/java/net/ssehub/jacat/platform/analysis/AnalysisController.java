@@ -1,27 +1,59 @@
 package net.ssehub.jacat.platform.analysis;
 
+import net.ssehub.jacat.api.addon.task.Task;
+import net.ssehub.jacat.worker.analysis.capabilities.AnalysisCapabilities;
+import net.ssehub.jacat.worker.analysis.queue.AnalysisTaskScheduler;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.client.RestTemplate;
 
 import java.util.Map;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/v0/analysis")
 public class AnalysisController {
 
-    RestTemplate restTemplate = new RestTemplate();
+    private AnalysisTaskScheduler analysisTaskScheduler;
+    private AnalysisCapabilities capabilities;
+    private AnalysisTaskRepository repository;
 
-    @GetMapping("/{id}")
-    public AnalysisTaskResult getAnalysisResult(@PathVariable("id") String id) {
-        return restTemplate
-                .getForObject("http://localhost:8081/api/v0/analysis/{id}", AnalysisTaskResult.class, id);
+    public AnalysisController(AnalysisTaskScheduler analysisTaskScheduler,
+                              AnalysisCapabilities capabilities,
+                              AnalysisTaskRepository repository) {
+        this.analysisTaskScheduler = analysisTaskScheduler;
+        this.capabilities = capabilities;
+        this.repository = repository;
+    }
+
+    @GetMapping("/{task}")
+    public Optional<AnalysisTask> getAnalysis(@PathVariable("task") String taskId) {
+        return this.repository.findById(taskId);
     }
 
     @PostMapping()
-    public AnalysisTaskResult startAnalysis(@RequestParam("slug") String slug,
-                                    @RequestParam("language") String language,
-                                    @RequestBody Map<String, Object> request) {
-        return null;
+    public AnalysisTask startAnalysis(@RequestParam("slug") String slug,
+                                      @RequestParam("language") String language,
+                                      @RequestBody Map<String, Object> request) {
+
+        if (!capabilities.isRegistered(slug, language)) {
+            return null;
+        }
+
+        if (!analysisTaskScheduler.canSchedule()) {
+            return null;
+        }
+
+//        if (!analysisTaskScheduler.trySchedule(analysisTaskRequest)) {
+//            return null;
+//        }
+
+        AnalysisTask analysisTask = new AnalysisTask(slug, language, request);
+        analysisTask = this.repository.save(analysisTask);
+
+        Task task = new Task(analysisTask.getId(), slug, language, request, (finishedTask) -> {
+            this.repository.save(new AnalysisTask(finishedTask));
+        });
+        analysisTaskScheduler.trySchedule(task);
+        return analysisTask;
     }
 
 }

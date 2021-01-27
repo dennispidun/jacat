@@ -10,7 +10,7 @@ repositories {
 }
 
 dependencies {
-    implementation project(":addon-api")
+    compile project(":addon-api")
 }
 
 jar {

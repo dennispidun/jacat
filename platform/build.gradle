@@ -23,7 +23,9 @@ ext {
 }
 
 dependencies {
-	compile project(":addon-api")
+	implementation project(":addon-api")
+
+	implementation project(":worker")
 
 	implementation 'org.springframework.boot:spring-boot-starter-data-mongodb'
 	implementation 'org.springframework.boot:spring-boot-starter-web'

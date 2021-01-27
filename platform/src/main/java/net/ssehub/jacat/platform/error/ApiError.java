@@ -105,5 +105,10 @@ public class ApiError {
         constraintViolations.forEach(this::addValidationError);
     }
 
+    public static abstract class ApiSubError {
+
+    }
+
+
 
 }

@@ -3,7 +3,6 @@ package net.ssehub.jacat.platform.error;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.core.Ordered;
 import org.springframework.core.annotation.Order;
-import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -20,9 +19,6 @@ import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException;
 import org.springframework.web.servlet.NoHandlerFoundException;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
-
-
-import javax.validation.ConstraintViolationException;
 
 import static org.springframework.http.HttpStatus.BAD_REQUEST;
 
@@ -185,20 +181,20 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
         return buildResponseEntity(apiError);
     }
 
-    /**
-     * Handle DataIntegrityViolationException, inspects the cause for different DB causes.
-     *
-     * @param ex the DataIntegrityViolationException
-     * @return the ApiError object
-     */
-    @ExceptionHandler(DataIntegrityViolationException.class)
-    protected ResponseEntity<Object> handleDataIntegrityViolation(DataIntegrityViolationException ex,
-                                                                  WebRequest request) {
-        if (ex.getCause() instanceof ConstraintViolationException) {
-            return buildResponseEntity(new ApiError(HttpStatus.CONFLICT, "Database error", ex.getCause()));
-        }
-        return buildResponseEntity(new ApiError(HttpStatus.INTERNAL_SERVER_ERROR, ex));
-    }
+//    /**
+//     * Handle DataIntegrityViolationException, inspects the cause for different DB causes.
+//     *
+//     * @param ex the DataIntegrityViolationException
+//     * @return the ApiError object
+//     */
+//    @ExceptionHandler(DataIntegrityViolationException.class)
+//    protected ResponseEntity<Object> handleDataIntegrityViolation(DataIntegrityViolationException ex,
+//                                                                  WebRequest request) {
+//        if (ex.getCause() instanceof ConstraintViolationException) {
+//            return buildResponseEntity(new ApiError(HttpStatus.CONFLICT, "Database error", ex.getCause()));
+//        }
+//        return buildResponseEntity(new ApiError(HttpStatus.INTERNAL_SERVER_ERROR, ex));
+//    }
 
     /**
      * Handle Exception, handle generic Exception.class
