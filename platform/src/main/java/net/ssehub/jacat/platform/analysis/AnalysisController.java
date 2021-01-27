@@ -35,16 +35,12 @@ public class AnalysisController {
                                       @RequestBody Map<String, Object> request) {
 
         if (!capabilities.isRegistered(slug, language)) {
-            return null;
+            throw new CapabilityNotAvailableException(slug, language);
         }
 
         if (!analysisTaskScheduler.canSchedule()) {
-            return null;
+            throw new QueueCapacityLimitReachedException();
         }
-
-//        if (!analysisTaskScheduler.trySchedule(analysisTaskRequest)) {
-//            return null;
-//        }
 
         AnalysisTask analysisTask = new AnalysisTask(slug, language, request);
         analysisTask = this.repository.save(analysisTask);

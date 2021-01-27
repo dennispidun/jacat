@@ -32,7 +32,6 @@ public class AnalysisTaskExecutor {
         long time = timeEnd - timeStart;
         log.info("Finished AnalysingTask (#" + result.getId() + ") in "
                 + time + "ms with status [" + result.getStatus() + "]");
-
         completion.finish(result);
     }
 
