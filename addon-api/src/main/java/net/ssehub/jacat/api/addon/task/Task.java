@@ -1,13 +1,10 @@
 package net.ssehub.jacat.api.addon.task;
 
-import java.util.Map;
+import net.ssehub.jacat.api.addon.data.DataSection;
 
-/**
- * Diese Klasse beschreibt die Konfiguration einer (Analyse-)Aufgabe.
- * Hierbei wird immer die gewünschte Sprache mit reingegeben und
- * zusätzlich ein Mapping von Parametern, die für die Analyse wichtig
- * sind.
- */
+import java.util.Map;
+import java.util.Objects;
+
 public class Task {
 
     private String id;
@@ -16,43 +13,46 @@ public class Task {
 
     private String language;
 
-    private Task.Status status;
+    private Status status;
 
     private TaskFinish finish;
+
+    private DataSection dataConfiguration;
 
     private Map<String, Object> request;
 
     private Map<String, Object> result;
 
-    public Task(String id, String slug, String language, Map<String, Object> request, TaskFinish finish) {
+    public Task() {
+    }
+
+    public Task(String id, String slug, String language, DataSection dataSection, Map<String, Object> request, TaskFinish finish) {
         this.id = id;
         this.slug = slug;
         this.language = language;
+        this.dataConfiguration = dataSection;
         this.request = request;
         this.finish = finish;
-    }
-
-    public Task(String slug, String language, Map<String, Object> request, TaskFinish finish) {
-        this.slug = slug;
-        this.language = language;
-        this.request = request;
-        this.finish = finish;
-    }
-
-    public Task() {
     }
 
     public Task(String id,
                 String slug,
                 String language,
                 Status status,
+                DataSection dataSection,
                 Map<String, Object> request,
                 Map<String, Object> result) {
         this.id = id;
         this.slug = slug;
         this.language = language;
         this.status = status;
+        this.dataConfiguration = dataSection;
         this.request = request;
+        this.result = result;
+    }
+
+    public void setResult(Status status, Map<String, Object> result) {
+        this.status = status;
         this.result = result;
     }
 
@@ -68,19 +68,14 @@ public class Task {
         return language;
     }
 
-    public void setSuccessfulResult(Map<String, Object> result) {
-        this.result = result;
-        this.status = Status.SUCCESSFUL;
-    }
-
-    public void setFailedResult(Map<String, Object> result) {
-        this.result = result;
-        this.status = Status.FAILED;
-    }
-
     public String getId() {
         return id;
     }
+
+    public DataSection getDataConfiguration() {
+        return dataConfiguration;
+    }
+
 
     public Status getStatus() {
         return status;
@@ -90,11 +85,29 @@ public class Task {
         return result;
     }
 
+
     public void finish() {
-        this.finish.finish(this);
+        if (this.finish != null) {
+            this.finish.finish(this);
+        }
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Task task = (Task) o;
+        return id.equals(task.id);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id);
+    }
+
     public enum Status {
         SUCCESSFUL(),
-        FAILED();
+        FAILED()
     }
+
 }

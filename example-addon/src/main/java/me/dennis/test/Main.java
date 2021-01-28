@@ -9,6 +9,7 @@ public class Main extends Addon {
     public void onEnable() {
         this.getJacatPlatform().registerAnalysisTask(this, new JavaHintingAnalysisCapability());
         this.getJacatPlatform().registerAnalysisTask(this, new CPPHintingAnalysisCapability());
+        this.getJacatPlatform().registerDataCollector(this, new StaticFolderDataCollector());
         this.getLogger().info("Addon ist da: " + this.getJacatPlatform().getVersion());
     }
 }

@@ -2,8 +2,10 @@ package net.ssehub.jacat.worker;
 
 import net.ssehub.jacat.api.AbstractJacatWorker;
 import net.ssehub.jacat.api.addon.Addon;
+import net.ssehub.jacat.api.addon.data.AbstractDataCollector;
 import net.ssehub.jacat.api.addon.task.AbstractAnalysisCapability;
 import net.ssehub.jacat.worker.analysis.capabilities.AnalysisCapabilities;
+import net.ssehub.jacat.worker.data.DataCollectors;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -12,9 +14,12 @@ import java.util.List;
 public class JacatWorker extends AbstractJacatWorker {
 
     private AnalysisCapabilities analysisCapabilities;
+    private DataCollectors dataCollectors;
 
-    public JacatWorker(AnalysisCapabilities analysisCapabilities) {
+    public JacatWorker(AnalysisCapabilities analysisCapabilities,
+                       DataCollectors dataCollectors) {
         this.analysisCapabilities = analysisCapabilities;
+        this.dataCollectors = dataCollectors;
     }
 
     public String getVersion() {
@@ -23,16 +28,22 @@ public class JacatWorker extends AbstractJacatWorker {
 
     @Override
     public void registerAnalysisTask(Addon addon, AbstractAnalysisCapability capability) {
-        this.checkAlreadyRegistered(capability.getSlug(), capability.getLanguages());
+        for (String language : capability.getLanguages()) {
+            if (this.analysisCapabilities.isRegistered(capability.getSlug(), language)) {
+                throw new AnalysisCapabilityAlreadyRegisteredException(capability.getSlug(), language);
+            }
+        }
+
         this.analysisCapabilities.register(addon, capability);
     }
 
-    private void checkAlreadyRegistered(String slug, List<String> languages) {
-        for (String language : languages) {
-            if (this.analysisCapabilities.isRegistered(slug, language)) {
-                throw new AnalysisCapabilityAlreadyRegisteredException(slug, language);
-            }
+    @Override
+    public void registerDataCollector(Addon addon, AbstractDataCollector collector) {
+        if (this.dataCollectors.isRegistered(collector.getProtocol())) {
+            throw new DataCollectorAlreadyRegisteredException(collector.getProtocol());
         }
+
+        this.dataCollectors.register(addon, collector);
     }
 
     private static class AnalysisCapabilityAlreadyRegisteredException extends RuntimeException {
@@ -40,6 +51,12 @@ public class JacatWorker extends AbstractJacatWorker {
             super("The desired capability (slug=\"" +
                     slug + "\", language=\"" + language +
                     "\") is already registered.");
+        }
+    }
+
+    private static class DataCollectorAlreadyRegisteredException extends RuntimeException {
+        public DataCollectorAlreadyRegisteredException(String protocol) {
+            super("The desired data collector (protocol=\"" + protocol + "\") is already registered.");
         }
     }
 

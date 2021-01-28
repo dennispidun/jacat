@@ -1,7 +1,7 @@
 package me.dennis.test;
 
 import net.ssehub.jacat.api.addon.task.AbstractAnalysisCapability;
-import net.ssehub.jacat.api.addon.task.Task;
+import net.ssehub.jacat.api.addon.task.PreparedTask;
 
 import java.util.Arrays;
 import java.util.HashMap;
@@ -14,7 +14,7 @@ public class JavaHintingAnalysisCapability extends AbstractAnalysisCapability {
     }
 
     @Override
-    public Task run(Task task) {
+    public PreparedTask run(PreparedTask task) {
         System.out.println("New Task");
         System.out.println(task.getRequest());
 
@@ -27,4 +27,5 @@ public class JavaHintingAnalysisCapability extends AbstractAnalysisCapability {
         task.setSuccessfulResult(response);
         return task;
     }
+
 }

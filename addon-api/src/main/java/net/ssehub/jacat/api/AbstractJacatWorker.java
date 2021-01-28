@@ -1,6 +1,7 @@
 package net.ssehub.jacat.api;
 
 import net.ssehub.jacat.api.addon.Addon;
+import net.ssehub.jacat.api.addon.data.AbstractDataCollector;
 import net.ssehub.jacat.api.addon.task.AbstractAnalysisCapability;
 
 /**
@@ -29,12 +30,13 @@ public abstract class AbstractJacatWorker {
      * Analyse vollständig abdecken kann.
      *
      * @param addon Muss das laufende Addon sein
-     * @param syncTask Beschreibt die Fähigkeit, die eine
+     * @param capability Beschreibt die Fähigkeit, die eine
      *                           Analyse besitzt. Wenn eine Analyse
      *                           ansteht, wird ein entsprechendes
      *                           Addon dafür benachrichtigt.
      */
-    public abstract void registerAnalysisTask(Addon addon, AbstractAnalysisCapability syncTask);
+    public abstract void registerAnalysisTask(Addon addon, AbstractAnalysisCapability capability);
 
+    public abstract void registerDataCollector(Addon addon, AbstractDataCollector collector);
 
 }

@@ -67,16 +67,16 @@ public abstract class AbstractAnalysisCapability {
     /**
      * Jede Analysefähigkeit muss einen Auslöser für eine neue Analyse
      * besitzen. Mithilfe dieser Methode startet die Plattform die
-     * Analyse. Dieser Methode wird eine {@link Task}
+     * Analyse. Dieser Methode wird eine {@link PreparedTask}
      * übergeben, sodass die Analyse parametrisiert gestartet werden
      * kann.
      *
      * TODO: Validierung der TaskConfiguration
      *
-     * @param configuration Die Analysekonfiguration, die benötigt wird
+     * @param task Die Analysekonfiguration, die benötigt wird
      * @return Ein zur Laufzeit erstelltes Analyseergebnis, welches
      *         abhängig von der Implementierung des Analysetask ist.
      */
-    public abstract Task run(Task configuration);
+    public abstract PreparedTask run(PreparedTask task);
 
 }

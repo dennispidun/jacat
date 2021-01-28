@@ -1,7 +1,8 @@
 package me.dennis.test;
 
+import net.ssehub.jacat.api.addon.data.Submission;
 import net.ssehub.jacat.api.addon.task.AbstractAnalysisCapability;
-import net.ssehub.jacat.api.addon.task.Task;
+import net.ssehub.jacat.api.addon.task.PreparedTask;
 
 import java.util.HashMap;
 import java.util.List;
@@ -14,7 +15,12 @@ public class CPPHintingAnalysisCapability extends AbstractAnalysisCapability {
     }
 
     @Override
-    public Task run(Task request) {
+    public PreparedTask run(PreparedTask request) {
+        for(Submission submission : request.getSubmissions()) {
+            System.out.println("submission.getBasePath() = " + submission.getBasePath());
+        }
+
+
         int sek = (int) (Math.random() * 50 + 10);
 
         try {
