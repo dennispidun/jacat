@@ -1,5 +1,6 @@
 package net.ssehub.jacat.platform.analysis;
 
+import net.ssehub.jacat.api.IAnalysisCapabilities;
 import net.ssehub.jacat.api.addon.task.Task;
 import net.ssehub.jacat.worker.analysis.capabilities.AnalysisCapabilities;
 import net.ssehub.jacat.worker.analysis.queue.AnalysisTaskScheduler;
@@ -13,12 +14,12 @@ import java.util.List;
 @EnableScheduling
 public class AnalysisMonitor {
 
-    private AnalysisCapabilities capabilities;
+    private IAnalysisCapabilities capabilities;
     private AnalysisTaskRepository repository;
     private AnalysisTaskScheduler scheduler;
     private AnalysisService analysisService;
 
-    public AnalysisMonitor(AnalysisCapabilities capabilities,
+    public AnalysisMonitor(IAnalysisCapabilities capabilities,
                            AnalysisTaskRepository repository,
                            AnalysisTaskScheduler scheduler,
                            AnalysisService analysisService) {
@@ -40,7 +41,7 @@ public class AnalysisMonitor {
                         analysisTask.getRequest(),
                         analysisTask.getResult()))
                 .filter(task -> !scheduler.isQueued(task) && !scheduler.isRunning(task))
-                .filter(task -> capabilities.getCapability(task) != null)
+                .filter(task -> capabilities.isRegistered(task.getSlug(), task.getLanguage()))
                 .forEach(task -> analysisService.schedule(task));
 
     }

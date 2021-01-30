@@ -18,6 +18,7 @@ public abstract class AbstractAnalysisCapability {
     private final String slug;
     private final List<String> languages;
     private final double scheduleFactor;
+
     /**
      * Dies ist der Standardweg, um eine Analysefähigkeit zu erstellen.
      * Es muss immer der Slug und die Sprachen angegeben werden. Diese

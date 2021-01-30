@@ -1,11 +1,11 @@
 package net.ssehub.jacat.worker.analysis.queue;
 
 import lombok.extern.slf4j.Slf4j;
+import net.ssehub.jacat.api.IAnalysisCapabilities;
 import net.ssehub.jacat.api.addon.task.AbstractAnalysisCapability;
 import net.ssehub.jacat.api.addon.task.PreparedTask;
 import net.ssehub.jacat.api.addon.task.Task;
 import net.ssehub.jacat.worker.analysis.TaskPreparer;
-import net.ssehub.jacat.worker.analysis.capabilities.AnalysisCapabilities;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.scheduling.annotation.EnableAsync;
 import org.springframework.stereotype.Service;
@@ -17,10 +17,10 @@ import java.util.Collections;
 @Slf4j
 public class AnalysisTaskExecutor {
 
-    private AnalysisCapabilities capabilities;
+    private IAnalysisCapabilities capabilities;
     private TaskPreparer taskPreparer;
 
-    public AnalysisTaskExecutor(AnalysisCapabilities capabilities,
+    public AnalysisTaskExecutor(IAnalysisCapabilities capabilities,
                                 TaskPreparer taskPreparer) {
         this.capabilities = capabilities;
         this.taskPreparer = taskPreparer;
@@ -28,7 +28,7 @@ public class AnalysisTaskExecutor {
 
     @Async
     public void process(Task task, TaskCompletion completion) {
-        AbstractAnalysisCapability capability = this.capabilities.getCapability(task);
+        AbstractAnalysisCapability capability = this.capabilities.getCapability(task.getSlug(), task.getLanguage());
 
         this.log.info("Started AnalysingTask (#" + task.getId() + "): [slug=\"" + capability.getSlug()
                 + "\", language=\"" + task.getLanguage() + "\"]");

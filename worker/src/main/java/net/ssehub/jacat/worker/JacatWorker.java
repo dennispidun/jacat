@@ -1,6 +1,7 @@
 package net.ssehub.jacat.worker;
 
 import net.ssehub.jacat.api.AbstractJacatWorker;
+import net.ssehub.jacat.api.IAnalysisCapabilities;
 import net.ssehub.jacat.api.addon.Addon;
 import net.ssehub.jacat.api.addon.data.AbstractDataCollector;
 import net.ssehub.jacat.api.addon.task.AbstractAnalysisCapability;
@@ -13,10 +14,10 @@ import java.util.List;
 @Service
 public class JacatWorker extends AbstractJacatWorker {
 
-    private AnalysisCapabilities analysisCapabilities;
+    private IAnalysisCapabilities analysisCapabilities;
     private DataCollectors dataCollectors;
 
-    public JacatWorker(AnalysisCapabilities analysisCapabilities,
+    public JacatWorker(IAnalysisCapabilities analysisCapabilities,
                        DataCollectors dataCollectors) {
         this.analysisCapabilities = analysisCapabilities;
         this.dataCollectors = dataCollectors;

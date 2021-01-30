@@ -1,5 +1,6 @@
 package net.ssehub.jacat.worker.analysis.capabilities;
 
+import net.ssehub.jacat.api.IAnalysisCapabilities;
 import net.ssehub.jacat.api.addon.task.AbstractAnalysisCapability;
 import net.ssehub.jacat.api.addon.Addon;
 import net.ssehub.jacat.api.addon.task.Task;
@@ -11,16 +12,12 @@ import java.util.Map;
 import java.util.stream.Collectors;
 
 @Component
-public class AnalysisCapabilities {
+public class AnalysisCapabilities implements IAnalysisCapabilities<Addon> {
 
     private Map<AbstractAnalysisCapability, Addon> capabilities = new HashMap<>();
 
     public void register(Addon addon, AbstractAnalysisCapability analysisCapability) {
         this.capabilities.put(analysisCapability, addon);
-    }
-
-    public Map<AbstractAnalysisCapability, Addon> getCapabilities() {
-        return this.capabilities;
     }
 
     public boolean isRegistered(String slug, String language) {
@@ -29,17 +26,6 @@ public class AnalysisCapabilities {
         } catch (CapabilityNotFoundException ex) {
             return false;
         }
-    }
-
-    public List<AbstractAnalysisCapability> getCapabilities(String slug) {
-        return this.capabilities.keySet()
-                .stream()
-                .filter(capability -> capability.getSlug().equalsIgnoreCase(slug))
-                .collect(Collectors.toList());
-    }
-
-    public AbstractAnalysisCapability getCapability(Task task) {
-        return this.getCapability(task.getSlug(), task.getLanguage());
     }
 
     public AbstractAnalysisCapability getCapability(String slug, String language) {
@@ -51,13 +37,8 @@ public class AnalysisCapabilities {
                 .orElseThrow(() -> new CapabilityNotFoundException(slug, language));
     }
 
-    private static class CapabilityNotFoundException extends RuntimeException {
-        public CapabilityNotFoundException(String slug, String language) {
-            super("The desired capability (slug=\"" +
-                    slug + "\", language=\"" + language +
-                    "\" could not be found.");
-        }
+    @Override
+    public Addon getCapabilityHolder(String slug, String language) {
+        return this.capabilities.get(this.getCapability(slug, language));
     }
-
-
 }
