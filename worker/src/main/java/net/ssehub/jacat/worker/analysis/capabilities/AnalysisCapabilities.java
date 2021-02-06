@@ -1,6 +1,6 @@
 package net.ssehub.jacat.worker.analysis.capabilities;
 
-import net.ssehub.jacat.api.IAnalysisCapabilities;
+import net.ssehub.jacat.api.analysis.IAnalysisCapabilities;
 import net.ssehub.jacat.api.addon.task.AbstractAnalysisCapability;
 import net.ssehub.jacat.api.addon.Addon;
 import org.springframework.stereotype.Component;

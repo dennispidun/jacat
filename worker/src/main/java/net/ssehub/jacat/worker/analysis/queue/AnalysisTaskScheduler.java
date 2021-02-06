@@ -1,66 +1,46 @@
 package net.ssehub.jacat.worker.analysis.queue;
 
 import net.ssehub.jacat.api.addon.task.Task;
+import net.ssehub.jacat.api.analysis.IAnalysisScheduler;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.scheduling.annotation.EnableScheduling;
-import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
-import java.util.Collections;
-import java.util.HashSet;
 import java.util.Queue;
-import java.util.Set;
 import java.util.concurrent.ArrayBlockingQueue;
 
 @Component
 @EnableScheduling
-public class AnalysisTaskScheduler {
+public class AnalysisTaskScheduler implements IAnalysisScheduler {
 
-    public static final int QUEUE_CAPACITY = 10;
-    public static final int MAX_RUNNING_PROCESSES = 5;
+    public final int queueCapacity;
 
     private Queue<Task> queue;
-    private AnalysisTaskExecutor analysisTaskExecutor;
 
-    private Set<Task> runningTasks = Collections.synchronizedSet(new HashSet<>());
-
-    public AnalysisTaskScheduler(AnalysisTaskExecutor analysisTaskExecutor) {
-        this.queue = new ArrayBlockingQueue<>(QUEUE_CAPACITY);
-        this.analysisTaskExecutor = analysisTaskExecutor;
+    public AnalysisTaskScheduler(@Value("${analysis.max-tasks:10}")
+                                         int queueCapacity) {
+        this.queue = new ArrayBlockingQueue<>(queueCapacity);
+        this.queueCapacity = queueCapacity;
     }
 
-    public boolean isQueued(Task task) {
+    public boolean isScheduled(Task task) {
         return this.queue.contains(task);
     }
 
-    public boolean isRunning(Task task) {
-        return this.runningTasks.contains(task);
-    }
-
     public boolean trySchedule(Task task) {
-        if (this.isQueued(task)) {
+        if (this.isScheduled(task)) {
             return false;
         }
 
         return this.queue.offer(task);
     }
 
+    public Task getNext() {
+        return this.queue.poll();
+    }
+
     public boolean canSchedule() {
-        return this.queue.size() < QUEUE_CAPACITY;
+        return this.queue.size() < queueCapacity;
     }
 
-    @Scheduled(cron = "*/1 * * * * *")
-    private void executeTasks() {
-        if (this.runningTasks.size() >= MAX_RUNNING_PROCESSES) {
-            return;
-        }
-
-        Task task = this.queue.poll();
-        if (task != null) {
-            this.runningTasks.add(task);
-            this.analysisTaskExecutor.process(task, (result -> {
-                this.runningTasks.remove(task);
-                result.finish();
-            }));
-        }
-    }
 }

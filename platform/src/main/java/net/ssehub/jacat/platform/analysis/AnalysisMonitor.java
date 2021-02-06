@@ -1,9 +1,8 @@
 package net.ssehub.jacat.platform.analysis;
 
-import net.ssehub.jacat.api.IAnalysisCapabilities;
+import net.ssehub.jacat.api.analysis.IAnalysisCapabilities;
 import net.ssehub.jacat.api.addon.task.Task;
-import net.ssehub.jacat.worker.analysis.capabilities.AnalysisCapabilities;
-import net.ssehub.jacat.worker.analysis.queue.AnalysisTaskScheduler;
+import net.ssehub.jacat.api.analysis.IAnalysisScheduler;
 import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
@@ -16,12 +15,12 @@ public class AnalysisMonitor {
 
     private IAnalysisCapabilities capabilities;
     private AnalysisTaskRepository repository;
-    private AnalysisTaskScheduler scheduler;
+    private IAnalysisScheduler scheduler;
     private AnalysisService analysisService;
 
     public AnalysisMonitor(IAnalysisCapabilities capabilities,
                            AnalysisTaskRepository repository,
-                           AnalysisTaskScheduler scheduler,
+                           IAnalysisScheduler scheduler,
                            AnalysisService analysisService) {
         this.capabilities = capabilities;
         this.repository = repository;
@@ -40,7 +39,7 @@ public class AnalysisMonitor {
                         analysisTask.getDataConfiguration(),
                         analysisTask.getRequest(),
                         analysisTask.getResult()))
-                .filter(task -> !scheduler.isQueued(task) && !scheduler.isRunning(task))
+                .filter(task -> !scheduler.isScheduled(task) && !scheduler.isRunning(task))
                 .filter(task -> capabilities.isRegistered(task.getSlug(), task.getLanguage()))
                 .forEach(task -> analysisService.schedule(task));
 

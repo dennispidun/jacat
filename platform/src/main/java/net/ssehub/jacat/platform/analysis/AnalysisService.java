@@ -1,6 +1,7 @@
 package net.ssehub.jacat.platform.analysis;
 
-import net.ssehub.jacat.api.IAnalysisCapabilities;
+import net.ssehub.jacat.api.addon.Addon;
+import net.ssehub.jacat.api.analysis.IAnalysisCapabilities;
 import net.ssehub.jacat.api.addon.task.Task;
 import net.ssehub.jacat.platform.analysis.api.CreateAnalysisDto;
 import net.ssehub.jacat.worker.analysis.queue.AnalysisTaskScheduler;
@@ -9,11 +10,11 @@ import org.springframework.stereotype.Service;
 @Service
 public class AnalysisService {
 
-    private IAnalysisCapabilities capabilities;
-    private AnalysisTaskScheduler analysisTaskScheduler;
-    private AnalysisTaskRepository repository;
+    private final IAnalysisCapabilities<Addon> capabilities;
+    private final AnalysisTaskScheduler analysisTaskScheduler;
+    private final AnalysisTaskRepository repository;
 
-    public AnalysisService(IAnalysisCapabilities capabilities,
+    public AnalysisService(IAnalysisCapabilities<Addon> capabilities,
                            AnalysisTaskScheduler analysisTaskScheduler,
                            AnalysisTaskRepository repository) {
         this.capabilities = capabilities;

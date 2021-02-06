@@ -1,4 +1,4 @@
-package net.ssehub.jacat.worker.analysis.queue;
+package net.ssehub.jacat.api.analysis;
 
 import net.ssehub.jacat.api.addon.task.Task;
 

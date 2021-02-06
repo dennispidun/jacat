@@ -1,11 +1,8 @@
 package net.ssehub.jacat.platform.analysis;
 
 import net.ssehub.jacat.platform.analysis.api.CreateAnalysisDto;
-import net.ssehub.jacat.worker.analysis.capabilities.AnalysisCapabilities;
-import net.ssehub.jacat.worker.analysis.queue.AnalysisTaskScheduler;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.Map;
 import java.util.Optional;
 
 @RestController

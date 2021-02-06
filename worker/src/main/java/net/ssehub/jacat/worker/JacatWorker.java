@@ -1,23 +1,20 @@
 package net.ssehub.jacat.worker;
 
 import net.ssehub.jacat.api.AbstractJacatWorker;
-import net.ssehub.jacat.api.IAnalysisCapabilities;
+import net.ssehub.jacat.api.analysis.IAnalysisCapabilities;
 import net.ssehub.jacat.api.addon.Addon;
 import net.ssehub.jacat.api.addon.data.AbstractDataCollector;
 import net.ssehub.jacat.api.addon.task.AbstractAnalysisCapability;
-import net.ssehub.jacat.worker.analysis.capabilities.AnalysisCapabilities;
 import net.ssehub.jacat.worker.data.DataCollectors;
 import org.springframework.stereotype.Service;
-
-import java.util.List;
 
 @Service
 public class JacatWorker extends AbstractJacatWorker {
 
-    private IAnalysisCapabilities analysisCapabilities;
+    private IAnalysisCapabilities<Addon> analysisCapabilities;
     private DataCollectors dataCollectors;
 
-    public JacatWorker(IAnalysisCapabilities analysisCapabilities,
+    public JacatWorker(IAnalysisCapabilities<Addon> analysisCapabilities,
                        DataCollectors dataCollectors) {
         this.analysisCapabilities = analysisCapabilities;
         this.dataCollectors = dataCollectors;

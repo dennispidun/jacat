@@ -1,6 +1,6 @@
 package net.ssehub.jacat.platform.analysis;
 
-import net.ssehub.jacat.api.IAnalysisCapabilities;
+import net.ssehub.jacat.api.analysis.IAnalysisCapabilities;
 import net.ssehub.jacat.api.addon.Addon;
 import net.ssehub.jacat.api.addon.data.DataSection;
 import net.ssehub.jacat.api.addon.task.Task;
@@ -67,7 +67,9 @@ class AnalysisServiceTest {
     void trySchedule_withEverythingAvailable_schedulesTaskAndBuildsFinisherCorrectly() {
         when(mockAddonCapabilities.isRegistered(any(), any())).thenReturn(true);
         when(mockTaskScheduler.canSchedule()).thenReturn(true);
-        CreateAnalysisDto createAnalysisDto = new CreateAnalysisDto(A_DATA_SECTION, A_REQUEST);
+        CreateAnalysisDto createAnalysisDto = new CreateAnalysisDto();
+        createAnalysisDto.setData(A_DATA_SECTION);
+        createAnalysisDto.setRequestParameter(A_REQUEST_KEY, A_REQUEST_VALUE);
 
         AnalysisTask result = new AnalysisTask(
                 new Task(AN_ID, A_SLUG, A_LANGUAGE, null, A_DATA_SECTION, A_REQUEST, null)
