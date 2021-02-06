@@ -61,4 +61,5 @@ public abstract class Addon {
     public int hashCode() {
         return Objects.hash(description);
     }
+
 }

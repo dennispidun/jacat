@@ -14,7 +14,7 @@ import java.net.URL;
 import java.net.URLClassLoader;
 
 public class AddonClassLoader extends URLClassLoader {
-    public static final String PLATFORM_FIELD_NAME = "worker";
+    public static final String WORKER_FIELD_NAME = "worker";
     public static final String DESCRIPTION_FIELD_NAME = "description";
     public static final String LOGGER_FIELD_NAME = "logger";
 
@@ -33,7 +33,7 @@ public class AddonClassLoader extends URLClassLoader {
             Class<?> jarClass = Class.forName(addonDescription.getMainClass(), true, this);
             Object addon = jarClass.getDeclaredConstructor().newInstance();
 
-            setCustomValue(addon, PLATFORM_FIELD_NAME, jacatWorker);
+            setCustomValue(addon, WORKER_FIELD_NAME, jacatWorker);
             setCustomValue(addon, DESCRIPTION_FIELD_NAME, addonDescription);
             setCustomValue(addon, LOGGER_FIELD_NAME, LoggerFactory.getLogger(loggerName));
 

@@ -1,7 +1,9 @@
 package net.ssehub.jacat.platform.analysis;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import net.ssehub.jacat.api.addon.data.DataSection;
 import net.ssehub.jacat.api.addon.task.Task;
@@ -14,6 +16,7 @@ import java.util.Map;
 @Document
 @NoArgsConstructor
 @Data
+@EqualsAndHashCode(callSuper = true)
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class AnalysisTask extends Task {
 

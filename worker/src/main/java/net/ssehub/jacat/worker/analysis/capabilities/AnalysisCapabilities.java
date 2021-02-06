@@ -3,13 +3,10 @@ package net.ssehub.jacat.worker.analysis.capabilities;
 import net.ssehub.jacat.api.IAnalysisCapabilities;
 import net.ssehub.jacat.api.addon.task.AbstractAnalysisCapability;
 import net.ssehub.jacat.api.addon.Addon;
-import net.ssehub.jacat.api.addon.task.Task;
 import org.springframework.stereotype.Component;
 
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
-import java.util.stream.Collectors;
 
 @Component
 public class AnalysisCapabilities implements IAnalysisCapabilities<Addon> {
