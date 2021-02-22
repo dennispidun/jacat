@@ -65,7 +65,7 @@ public class AnalysisTaskExecutor implements IAnalysisTaskExecutor {
     public void process(Task task, TaskCompletion completion) {
         AbstractAnalysisCapability capability = this.capabilities.getCapability(task.getSlug(), task.getLanguage());
 
-        this.log.info("Started AnalysingTask (#" + task.getId() + "): [slug=\"" + capability.getSlug()
+        this.log.info("Started AnalysingTask (#" + task.getId() + "): [slug=\"" + task.getSlug()
                 + "\", language=\"" + task.getLanguage() + "\"]");
         long timeStart = System.currentTimeMillis();
 
@@ -77,12 +77,17 @@ public class AnalysisTaskExecutor implements IAnalysisTaskExecutor {
             result.setFailedResult(Collections.singletonMap("message", e.getMessage()));
         }
 
-        task.setResult(result.getStatus(), result.getResult());
+        Task.Status status = result.getStatus();
+        if (status == null) {
+            status = Task.Status.SUCCESSFUL;
+        }
+
+        task.setResult(status, result.getResult());
         long timeEnd = System.currentTimeMillis();
         long time = timeEnd - timeStart;
 
         log.info("Finished AnalysingTask (#" + result.getId() + ") in "
-                + time + "ms with status [" + result.getStatus() + "]");
+                + time + "ms with status [" + status + "]");
         completion.finish(task);
     }
 

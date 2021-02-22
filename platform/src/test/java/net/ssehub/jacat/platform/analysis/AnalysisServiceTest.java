@@ -37,6 +37,7 @@ class AnalysisServiceTest {
     private AnalysisTaskScheduler mockTaskScheduler;
 
     @BeforeEach
+    @SuppressWarnings("unchecked")
     void setUp() {
         mockAddonCapabilities = mock(IAnalysisCapabilities.class);
         mockRepository = mock(AnalysisTaskRepository.class);

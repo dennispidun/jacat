@@ -28,6 +28,10 @@ public class AnalysisTaskScheduler implements IAnalysisScheduler {
     }
 
     public boolean trySchedule(Task task) {
+        if (task.getId() == null) {
+            return false;
+        }
+
         if (this.isScheduled(task)) {
             return false;
         }
