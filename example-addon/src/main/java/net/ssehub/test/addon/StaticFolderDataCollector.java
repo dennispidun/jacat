@@ -1,9 +1,6 @@
 package net.ssehub.test.addon;
 
-import net.ssehub.jacat.api.addon.data.AbstractDataCollector;
-import net.ssehub.jacat.api.addon.data.DataSection;
-import net.ssehub.jacat.api.addon.data.Submission;
-import net.ssehub.jacat.api.addon.data.SubmissionCollection;
+import net.ssehub.jacat.api.addon.data.*;
 
 import java.io.File;
 import java.io.IOException;
@@ -39,7 +36,7 @@ public class StaticFolderDataCollector extends AbstractDataCollector {
 
                     Path target = base.toPath().resolve(homework.getName()).resolve(submissionFolder.getName());
                     try {
-                        copyFolder(submissionFolder.toPath(), target, StandardCopyOption.COPY_ATTRIBUTES);
+                        FolderUtils.copyFolder(submissionFolder.toPath(), target);
                         submissions.add(new Submission("java", homework.getName(), target.toString()));
                     } catch (IOException e) {
                         e.printStackTrace();
@@ -51,23 +48,4 @@ public class StaticFolderDataCollector extends AbstractDataCollector {
         return submissions;
     }
 
-    public void copyFolder(Path source, Path target, CopyOption... options)
-            throws IOException {
-        Files.walkFileTree(source, new SimpleFileVisitor<Path>() {
-
-            @Override
-            public FileVisitResult preVisitDirectory(Path dir, BasicFileAttributes attrs)
-                    throws IOException {
-                createDirectories(target.resolve(source.relativize(dir)));
-                return FileVisitResult.CONTINUE;
-            }
-
-            @Override
-            public FileVisitResult visitFile(Path file, BasicFileAttributes attrs)
-                    throws IOException {
-                copy(file, target.resolve(source.relativize(file.getFileName())), options);
-                return FileVisitResult.CONTINUE;
-            }
-        });
-    }
 }
