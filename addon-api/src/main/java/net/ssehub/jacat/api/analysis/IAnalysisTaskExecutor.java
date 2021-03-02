@@ -8,4 +8,6 @@ public interface IAnalysisTaskExecutor {
 
     void process(Task task, TaskCompletion completion);
 
+    void processNextTask();
+
 }

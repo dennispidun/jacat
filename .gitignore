@@ -16,6 +16,8 @@
 # debug
 debug/**
 
+!worker/src/test/resources/test-addons.jar
+
 
 # Generated files
 .idea/**/contentModel.xml

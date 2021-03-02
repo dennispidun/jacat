@@ -3,4 +3,5 @@ include 'platform'
 include 'example-addon'
 include 'addon-api'
 include 'worker'
+include 'test-addons'
 

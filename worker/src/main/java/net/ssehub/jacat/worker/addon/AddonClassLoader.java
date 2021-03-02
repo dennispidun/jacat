@@ -40,8 +40,7 @@ public class AddonClassLoader extends URLClassLoader {
             try {
                 ((Addon) addon).onEnable();
             } catch (RuntimeException e) {
-                this.logger.error(e.getMessage());
-                this.logger.error("Ignoring this capability.");
+                throw new AddonNotLoadableException(e);
             }
 
             this.addon = (Addon) addon;
@@ -53,6 +52,7 @@ public class AddonClassLoader extends URLClassLoader {
                 | ClassNotFoundException
                 | NoSuchMethodException
                 | NoSuchFieldException e) {
+            e.printStackTrace();
             throw new AddonNotLoadableException(e);
         }
     }
@@ -60,8 +60,6 @@ public class AddonClassLoader extends URLClassLoader {
     public Addon getLoadedAddon() {
         return this.addon;
     }
-
-
 
     private void setCustomValue(Object addon, String declaredField, Object value) throws NoSuchFieldException, IllegalAccessException {
         Field platform = addon.getClass().getSuperclass().getDeclaredField(declaredField);

@@ -1,4 +1,4 @@
-package me.dennis.test;
+package net.ssehub.test.addon;
 
 import net.ssehub.jacat.api.addon.Addon;
 

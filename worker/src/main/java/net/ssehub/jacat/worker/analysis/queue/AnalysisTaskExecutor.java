@@ -41,7 +41,7 @@ public class AnalysisTaskExecutor implements IAnalysisTaskExecutor {
     }
 
     @Scheduled(cron = "*/1 * * * * *")
-    private void executeTasks() {
+    public void processNextTask() {
         if (this.runningTasks.size() >= MAX_RUNNING_PROCESSES) {
             return;
         }
