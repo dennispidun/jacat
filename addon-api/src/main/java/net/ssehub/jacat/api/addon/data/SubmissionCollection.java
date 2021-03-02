@@ -20,4 +20,9 @@ public class SubmissionCollection implements Iterable<Submission> {
     public Iterator<Submission> iterator() {
         return this.submissions.iterator();
     }
+
+    public void accept(DataCollectionVisitor visitor) {
+        this.forEach((submission -> submission.accept(visitor)));
+    }
+
 }

@@ -1,21 +1,26 @@
 package net.ssehub.jacat.api.addon.data;
 
+import java.nio.file.Path;
 import java.util.Objects;
 
 public class Submission {
 
     private String course;
     private String homework;
-    private String basePath;
+    private Path basePath;
 
-    public Submission(String course, String homework, String basePath) {
+    public Submission(String course, String homework, Path basePath) {
         this.course = course;
         this.homework = homework;
         this.basePath = basePath;
     }
 
-    public String getBasePath() {
+    public Path getBasePath() {
         return basePath;
+    }
+
+    public void setBasePath(Path basePath) {
+        this.basePath = basePath;
     }
 
     @Override
@@ -31,5 +36,9 @@ public class Submission {
     @Override
     public int hashCode() {
         return Objects.hash(course, homework, basePath);
+    }
+
+    public void accept(DataCollectionVisitor visitor) {
+        visitor.visit(this);
     }
 }

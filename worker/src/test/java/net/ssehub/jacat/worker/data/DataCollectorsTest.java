@@ -2,12 +2,10 @@ package net.ssehub.jacat.worker.data;
 
 import net.ssehub.jacat.api.addon.Addon;
 import net.ssehub.jacat.api.addon.data.AbstractDataCollector;
-import net.ssehub.jacat.api.addon.data.DataSection;
+import net.ssehub.jacat.api.addon.data.DataRequest;
 import net.ssehub.jacat.api.addon.data.SubmissionCollection;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-
-import java.io.File;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -70,7 +68,12 @@ class DataCollectorsTest {
     private AbstractDataCollector createCollectorWithProtocol(String a_protocol) {
         return new AbstractDataCollector(a_protocol) {
             @Override
-            public SubmissionCollection collect(File base, DataSection configuration) {
+            public void arrange(DataRequest request) {
+
+            }
+
+            @Override
+            public SubmissionCollection collect(DataRequest request) {
                 return null;
             }
         };

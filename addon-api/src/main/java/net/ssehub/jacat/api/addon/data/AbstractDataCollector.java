@@ -1,7 +1,5 @@
 package net.ssehub.jacat.api.addon.data;
 
-import java.io.File;
-
 public abstract class AbstractDataCollector {
 
     private String protocol;
@@ -14,5 +12,7 @@ public abstract class AbstractDataCollector {
         return protocol;
     }
 
-    public abstract SubmissionCollection collect(File base, DataSection configuration);
+    public abstract void arrange(DataRequest request);
+
+    public abstract SubmissionCollection collect(DataRequest request);
 }
