@@ -7,11 +7,13 @@ public class Submission {
 
     private String course;
     private String homework;
+    private String submission;
     private Path basePath;
 
-    public Submission(String course, String homework, Path basePath) {
+    public Submission(String course, String homework, String submission, Path basePath) {
         this.course = course;
         this.homework = homework;
+        this.submission = submission;
         this.basePath = basePath;
     }
 
@@ -23,6 +25,18 @@ public class Submission {
         this.basePath = basePath;
     }
 
+    public String getCourse() {
+        return course;
+    }
+
+    public String getHomework() {
+        return homework;
+    }
+
+    public String getSubmission() {
+        return submission;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -30,15 +44,26 @@ public class Submission {
         Submission that = (Submission) o;
         return Objects.equals(course, that.course)
                 && Objects.equals(homework, that.homework)
+                && Objects.equals(submission, that.submission)
                 && Objects.equals(basePath, that.basePath);
     }
 
     @Override
-    public int hashCode() {
-        return Objects.hash(course, homework, basePath);
+    public String toString() {
+        return "Submission{" +
+                "course='" + course + '\'' +
+                ", homework='" + homework + '\'' +
+                ", submission='" + submission + '\'' +
+                ", basePath=" + basePath +
+                '}';
     }
 
-    public void accept(DataCollectionVisitor visitor) {
+    @Override
+    public int hashCode() {
+        return Objects.hash(course, homework, basePath, submission);
+    }
+
+    public void accept(SubmissionMoverVisitor visitor){
         visitor.visit(this);
     }
 }

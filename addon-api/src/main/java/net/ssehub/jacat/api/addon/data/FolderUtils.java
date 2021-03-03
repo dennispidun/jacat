@@ -9,28 +9,38 @@ import static java.nio.file.Files.createDirectories;
 
 public class FolderUtils {
 
-    public static void copyFolder(Path workspace, Path source ) throws IOException {
-        copyFolder(workspace, source, StandardCopyOption.COPY_ATTRIBUTES);
-    }
-
-    public static void copyFolder(Path workspace, Path source, CopyOption ...options)
-            throws IOException {
+    public static void copyFolder(Path workspace,
+                                  Path source,
+                                  String folderName,
+                                  CopyOption ...options) throws IOException {
         Files.walkFileTree(source, new SimpleFileVisitor<Path>() {
 
             @Override
             public FileVisitResult preVisitDirectory(Path dir, BasicFileAttributes attrs)
                     throws IOException {
-                createDirectories(workspace.resolve(source.relativize(dir)));
+                Path directory = getWorkspace(workspace, folderName)
+                        .resolve(source.relativize(dir));
+                createDirectories(directory);
                 return FileVisitResult.CONTINUE;
             }
 
             @Override
             public FileVisitResult visitFile(Path file, BasicFileAttributes attrs)
                     throws IOException {
-                copy(file, workspace.resolve(source.relativize(file.getFileName())), options);
+                Path relativizedFile = source.relativize(file);
+                copy(file, getWorkspace(workspace, folderName)
+                        .resolve(relativizedFile), options);
                 return FileVisitResult.CONTINUE;
             }
         });
+    }
+
+    private static Path getWorkspace(Path workspace, String folderName) {
+        Path directory = workspace;
+        if (folderName != null) {
+            directory = workspace.resolve(folderName);
+        }
+        return directory;
     }
 
 }

@@ -5,7 +5,7 @@ import net.ssehub.jacat.api.addon.task.PreparedTask;
 import net.ssehub.jacat.api.addon.task.Task;
 import net.ssehub.jacat.worker.data.DataCollectors;
 import net.ssehub.jacat.api.addon.data.DataRequest;
-import net.ssehub.jacat.worker.data.MoveCollectionVisitor;
+import net.ssehub.jacat.worker.data.MoveSubmissionVisitor;
 import org.springframework.stereotype.Service;
 
 import java.io.File;
@@ -31,7 +31,7 @@ public class TaskPreparer {
 
         collector.arrange(dataRequest);
         SubmissionCollection collection = collector.collect(dataRequest);
-        collection.accept(new MoveCollectionVisitor(collection, taskWorkspace.toPath()));
+        collection.accept(new MoveSubmissionVisitor(taskWorkspace.toPath()));
         // TODO: Check if created Files are in Folder
         preparedTask.setSubmissions(collection);
 

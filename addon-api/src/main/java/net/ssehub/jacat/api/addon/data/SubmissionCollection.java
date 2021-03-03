@@ -1,15 +1,13 @@
 package net.ssehub.jacat.api.addon.data;
 
-import java.util.HashSet;
-import java.util.Iterator;
-import java.util.Set;
+import java.util.*;
 
 public class SubmissionCollection implements Iterable<Submission> {
 
-    private Set<Submission> submissions;
+    private List<Submission> submissions;
 
     public SubmissionCollection() {
-        this.submissions = new HashSet<>();
+        this.submissions = new ArrayList<>();
     }
 
     public void add(Submission submission) {
@@ -21,8 +19,14 @@ public class SubmissionCollection implements Iterable<Submission> {
         return this.submissions.iterator();
     }
 
-    public void accept(DataCollectionVisitor visitor) {
-        this.forEach((submission -> submission.accept(visitor)));
+    public void accept(SubmissionMoverVisitor visitor) {
+        for(Submission submission : this.submissions) {
+            try {
+                submission.accept(visitor);
+            } catch (RuntimeException e) {
+                submissions.remove(submission);
+                e.printStackTrace();
+            }
+        }
     }
-
 }

@@ -28,13 +28,17 @@ public class StaticFolderDataCollector extends AbstractDataCollector {
             File baseCopyFrom = new File("C:\\Users\\Dennis\\Desktop\\examplejavacourse");
             Stream<File> stream = Arrays.stream(baseCopyFrom.listFiles());
 
-            stream.forEach(homework -> {
+            stream.filter(File::isDirectory).forEach(homework -> {
                 File[] submissionFiles = homework.listFiles();
                 for(File submissionFolder : submissionFiles) {
                     if (submissionFolder.isFile()) {
                         continue;
                     }
-                    submissions.add(new Submission("java", homework.getName(), submissionFolder.toPath()));
+                    Submission java = new Submission("java",
+                            homework.getName(),
+                            submissionFolder.getName(),
+                            submissionFolder.toPath());
+                    submissions.add(java);
                 }
             });
         }
