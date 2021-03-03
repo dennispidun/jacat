@@ -7,3 +7,10 @@ spring:
   batch:
     job:
       enabled: false
+courses:
+  - course: java
+    protocol: local
+    language: java
+  - course: c++
+    protocol: local
+    language: c++

@@ -16,11 +16,6 @@ public class CPPHintingAnalysisCapability extends AbstractAnalysisCapability {
 
     @Override
     public PreparedTask run(PreparedTask request) {
-        for(Submission submission : request.getSubmissions()) {
-            System.out.println("submission.getBasePath() = " + submission.getBasePath());
-        }
-
-
         int sek = (int) (Math.random() * 50 + 10);
 
         try {

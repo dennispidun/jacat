@@ -18,7 +18,6 @@ public class DataSection {
         this.homework = homework;
         this.submission = submission;
     }
-
     public String getCourse() {
         return course;
     }
@@ -46,4 +45,9 @@ public class DataSection {
     public String getProtocol() {
         return protocol;
     }
+
+    public void setProtocol(String protocol) {
+        this.protocol = protocol;
+    }
+
 }

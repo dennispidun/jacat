@@ -4,6 +4,7 @@ import net.ssehub.jacat.api.addon.Addon;
 import net.ssehub.jacat.api.analysis.IAnalysisCapabilities;
 import net.ssehub.jacat.api.addon.task.Task;
 import net.ssehub.jacat.platform.analysis.api.CreateAnalysisDto;
+import net.ssehub.jacat.platform.course.CoursesConfiguration;
 import net.ssehub.jacat.worker.analysis.queue.AnalysisTaskScheduler;
 import org.springframework.stereotype.Service;
 
