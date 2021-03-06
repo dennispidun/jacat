@@ -47,6 +47,7 @@ class AnalysisServiceTest {
 
     @Test
     void trySchedule_withSlugOrLanguageNotAvailable_throwsException() {
+        // Arrange Action Assert
         when(mockAddonCapabilities.isRegistered(any(), any())).thenReturn(false);
 
         assertThrows(CapabilityNotAvailableException.class, () -> {

@@ -31,7 +31,7 @@ public class ListAnalysisResultDto {
     public ListAnalysisResultDto(AnalysisTask analysisTask) {
         this.id = analysisTask.getId();
         this.slug = analysisTask.getSlug();
-        this.data = analysisTask.getDataConfiguration();
+        this.data = analysisTask.getDataConfiguration().clone();
         this.data.setProtocol(null);
         this.request = analysisTask.getRequest();
         this.result = analysisTask.getResult();

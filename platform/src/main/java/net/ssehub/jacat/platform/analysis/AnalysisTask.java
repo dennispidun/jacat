@@ -1,9 +1,7 @@
 package net.ssehub.jacat.platform.analysis;
 
-import com.fasterxml.jackson.annotation.JsonFilter;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
-import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
@@ -38,5 +36,10 @@ public class AnalysisTask extends Task {
     @Id
     public String getId() {
         return super.getId();
+    }
+
+    @Override
+    public String toString() {
+        return super.toString();
     }
 }

@@ -7,6 +7,8 @@ spring:
   batch:
     job:
       enabled: false
+analysis:
+  max-tasks: -1
 courses:
   - course: java
     protocol: local

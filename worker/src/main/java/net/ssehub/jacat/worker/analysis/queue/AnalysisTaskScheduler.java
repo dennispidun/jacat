@@ -7,7 +7,7 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.stereotype.Component;
 
 import java.util.Queue;
-import java.util.concurrent.ArrayBlockingQueue;
+import java.util.concurrent.*;
 
 @Component
 @EnableScheduling
@@ -17,8 +17,12 @@ public class AnalysisTaskScheduler implements IAnalysisScheduler {
 
     private Queue<Task> queue;
 
-    public AnalysisTaskScheduler(@Value("${analysis.max-tasks:10}")
+    public AnalysisTaskScheduler(@Value("${analysis.max-tasks:250}")
                                          int queueCapacity) {
+        if (queueCapacity <= 0) { // -1 => unendlich
+            queueCapacity = 1000000000; // 1.000.000.000
+        }
+
         this.queue = new ArrayBlockingQueue<>(queueCapacity);
         this.queueCapacity = queueCapacity;
     }

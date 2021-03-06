@@ -1,6 +1,5 @@
 package net.ssehub.test.addon;
 
-import net.ssehub.jacat.api.addon.data.Submission;
 import net.ssehub.jacat.api.addon.task.AbstractAnalysisCapability;
 import net.ssehub.jacat.api.addon.task.PreparedTask;
 
@@ -44,6 +43,9 @@ public class CPPHintingAnalysisCapability extends AbstractAnalysisCapability {
                             .replace("y", "z")
                     , task.get(key));
         });
+
+        request.getSubmissions()
+        request.setSource("sdfsdfsdf");
 
         request.setSuccessfulResult(response);
         return request;

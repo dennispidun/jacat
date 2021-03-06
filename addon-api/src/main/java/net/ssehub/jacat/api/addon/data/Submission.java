@@ -63,7 +63,7 @@ public class Submission {
         return Objects.hash(course, homework, basePath, submission);
     }
 
-    public void accept(SubmissionMoverVisitor visitor){
+    public void accept(SubmissionVisitor visitor){
         visitor.visit(this);
     }
 }

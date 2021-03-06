@@ -48,6 +48,7 @@ public class AnalysisService {
                 (finishedTask) -> {
             this.repository.save(new AnalysisTask(finishedTask));
         });
+
         analysisTaskScheduler.trySchedule(task);
     }
 

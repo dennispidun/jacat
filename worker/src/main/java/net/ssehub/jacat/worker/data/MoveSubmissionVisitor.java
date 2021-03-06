@@ -1,6 +1,6 @@
 package net.ssehub.jacat.worker.data;
 
-import net.ssehub.jacat.api.addon.data.SubmissionMoverVisitor;
+import net.ssehub.jacat.api.addon.data.SubmissionVisitor;
 import net.ssehub.jacat.api.addon.data.FolderUtils;
 import net.ssehub.jacat.api.addon.data.Submission;
 
@@ -8,7 +8,7 @@ import java.io.IOException;
 import java.nio.file.Path;
 import java.util.UUID;
 
-public class MoveSubmissionVisitor implements SubmissionMoverVisitor {
+public class MoveSubmissionVisitor implements SubmissionVisitor {
 
     private Path target;
 

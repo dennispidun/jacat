@@ -19,7 +19,7 @@ public class SubmissionCollection implements Iterable<Submission> {
         return this.submissions.iterator();
     }
 
-    public void accept(SubmissionMoverVisitor visitor) {
+    public void accept(SubmissionVisitor visitor) {
         for(Submission submission : this.submissions) {
             try {
                 submission.accept(visitor);

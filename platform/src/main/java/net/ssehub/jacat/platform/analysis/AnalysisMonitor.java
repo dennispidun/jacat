@@ -32,7 +32,7 @@ public class AnalysisMonitor {
         this.analysisService = analysisService;
     }
 
-    @Scheduled(cron = "*/30 * * * * *")
+    @Scheduled(fixedRate = 30000, initialDelay = 0)
     private void checkAndRerun() {
         List<AnalysisTask> unprocessed= this.repository.findAllByStatus(null);
         unprocessed.stream().map(analysisTask ->
@@ -45,7 +45,10 @@ public class AnalysisMonitor {
                         analysisTask.getResult()))
                 .filter(task -> !scheduler.isScheduled(task) && !executor.isRunning(task))
                 .filter(task -> capabilities.isRegistered(task.getSlug(), task.getLanguage()))
-                .forEach(task -> analysisService.schedule(task));
+                .forEach(task -> {
+                    System.out.println("AnalysisMonitor.checkAndRerun");
+                    analysisService.schedule(task);
+                });
 
     }
 

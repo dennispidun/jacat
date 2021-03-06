@@ -16,7 +16,8 @@ public class StaticFolderDataCollector extends AbstractDataCollector {
 
     @Override
     public void arrange(DataRequest request) {
-
+        // SVN Aufrufen, Dateien runterladen
+        // eventuell umsortieren
     }
 
     @Override

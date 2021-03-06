@@ -73,7 +73,7 @@ public class Task {
     }
 
     public DataSection getDataConfiguration() {
-        return dataConfiguration;
+        return this.dataConfiguration;
     }
 
 
@@ -103,6 +103,20 @@ public class Task {
     @Override
     public int hashCode() {
         return Objects.hash(id);
+    }
+
+    @Override
+    public String toString() {
+        return "Task{" +
+                "id='" + id + '\'' +
+                ", slug='" + slug + '\'' +
+                ", language='" + language + '\'' +
+                ", status=" + status +
+                ", finish=" + finish +
+                ", dataConfiguration=" + dataConfiguration +
+                ", request=" + request +
+                ", result=" + result +
+                '}';
     }
 
     public enum Status {

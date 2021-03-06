@@ -6,8 +6,6 @@ public interface IAnalysisTaskExecutor {
 
     boolean isRunning(Task task);
 
-    void process(Task task, TaskCompletion completion);
-
-    void processNextTask();
+    void executeTasks();
 
 }

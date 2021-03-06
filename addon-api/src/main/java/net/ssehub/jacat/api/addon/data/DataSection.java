@@ -50,4 +50,20 @@ public class DataSection {
         this.protocol = protocol;
     }
 
+    public DataSection clone() {
+        return new DataSection(this.getProtocol(),
+                this.getCourse(),
+                this.getHomework(),
+                this.getSubmission());
+    }
+
+    @Override
+    public String toString() {
+        return "DataSection{" +
+                "protocol='" + protocol + '\'' +
+                ", course='" + course + '\'' +
+                ", homework='" + homework + '\'' +
+                ", submission='" + submission + '\'' +
+                '}';
+    }
 }

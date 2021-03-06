@@ -18,6 +18,8 @@ public class JavaHintingAnalysisCapability extends AbstractAnalysisCapability {
         System.out.println("New Task");
         System.out.println(task.getRequest());
 
+
+
         Map<String, Object> request = task.getRequest();
         Map<String, Object> response = new HashMap<>();
         request.keySet().forEach(key -> {
