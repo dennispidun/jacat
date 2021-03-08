@@ -44,9 +44,6 @@ public class CPPHintingAnalysisCapability extends AbstractAnalysisCapability {
                     , task.get(key));
         });
 
-        request.getSubmissions()
-        request.setSource("sdfsdfsdf");
-
         request.setSuccessfulResult(response);
         return request;
     }

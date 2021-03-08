@@ -2,6 +2,7 @@ package net.ssehub.jacat.api.addon.task;
 
 import net.ssehub.jacat.api.addon.data.SubmissionCollection;
 
+import java.nio.file.Path;
 import java.util.Map;
 import java.util.Objects;
 
@@ -14,6 +15,8 @@ public class PreparedTask {
     private String language;
 
     private Task.Status status;
+
+    private Path workspace;
 
     private SubmissionCollection submissions;
 
@@ -82,5 +85,13 @@ public class PreparedTask {
 
     public SubmissionCollection getSubmissions() {
         return submissions;
+    }
+
+    public Path getWorkspace() {
+        return workspace;
+    }
+
+    public void setWorkspace(Path workspace) {
+        this.workspace = workspace;
     }
 }

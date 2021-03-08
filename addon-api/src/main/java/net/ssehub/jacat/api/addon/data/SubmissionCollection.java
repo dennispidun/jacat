@@ -14,6 +14,15 @@ public class SubmissionCollection implements Iterable<Submission> {
         this.submissions.add(submission);
     }
 
+    public Optional<Submission> getSubmission(String folderName) {
+        return submissions.stream()
+            .filter(submission ->
+                    submission.getBasePath()
+                        .getFileName().toString()
+                        .equalsIgnoreCase(folderName))
+            .findFirst();
+    }
+
     @Override
     public Iterator<Submission> iterator() {
         return this.submissions.iterator();

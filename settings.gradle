@@ -4,4 +4,6 @@ include 'example-addon'
 include 'addon-api'
 include 'worker'
 include 'test-addons'
+include 'jpplag-addon'
+include 'svn-datacollector'
 

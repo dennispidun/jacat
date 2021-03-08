@@ -29,6 +29,8 @@ public class TaskPreparer {
         File taskWorkspace = new File(workspace, "tmp_" + task.getId());
         taskWorkspace.mkdirs();
 
+        preparedTask.setWorkspace(taskWorkspace.toPath());
+
         collector.arrange(dataRequest);
         SubmissionCollection collection = collector.collect(dataRequest);
         collection.accept(new MoveSubmissionVisitor(taskWorkspace.toPath()));

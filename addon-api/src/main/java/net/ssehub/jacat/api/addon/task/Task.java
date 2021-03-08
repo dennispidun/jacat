@@ -56,6 +56,10 @@ public class Task {
         this.result = result;
     }
 
+    public void setId(String id) {
+        this.id = id;
+    }
+
     public Map<String, Object> getRequest() {
         return request;
     }

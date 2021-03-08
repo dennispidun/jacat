@@ -26,7 +26,7 @@ public class StaticFolderDataCollector extends AbstractDataCollector {
         if (dataRequest.getCourse() != null
                 && dataRequest.getHomework() == null
                 && dataRequest.getSubmission() == null) { // get all submissions for all homeworks
-            File baseCopyFrom = new File("C:\\Users\\Dennis\\Desktop\\examplejavacourse");
+            File baseCopyFrom = new File(".\\debug\\addons\\local\\java");
             Stream<File> stream = Arrays.stream(baseCopyFrom.listFiles());
 
             stream.filter(File::isDirectory).forEach(homework -> {

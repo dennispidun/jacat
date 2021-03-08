@@ -1,0 +1,22 @@
+plugins {
+    id 'java'
+}
+
+group 'net.ssehub.jacat.addon'
+version '0.0.1-SNAPSHOT'
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    compile project(":addon-api")
+}
+
+jar {
+    from { configurations.compile.collect { it.isDirectory() ? it : zipTree(it) } }
+}
+test {
+    useJUnitPlatform()
+}
+
