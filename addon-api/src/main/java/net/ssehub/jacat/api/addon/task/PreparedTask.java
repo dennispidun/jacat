@@ -3,6 +3,7 @@ package net.ssehub.jacat.api.addon.task;
 import net.ssehub.jacat.api.addon.data.SubmissionCollection;
 
 import java.nio.file.Path;
+import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
 
@@ -54,7 +55,8 @@ public class PreparedTask {
     }
 
     public void setFailedResult(Map<String, Object> result) {
-        this.result = result;
+        this.result = new HashMap<>();
+        this.result.put("error", result);
         this.status = Task.Status.FAILED;
     }
 

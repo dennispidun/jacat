@@ -30,9 +30,14 @@ public class TaskPreparer {
         taskWorkspace.mkdirs();
 
         preparedTask.setWorkspace(taskWorkspace.toPath());
+        SubmissionCollection collection;
+        try {
+            collector.arrange(dataRequest);
+            collection = collector.collect(dataRequest);
+        } catch (RuntimeException e) {
+            throw new ResourceNotAvailableException();
+        }
 
-        collector.arrange(dataRequest);
-        SubmissionCollection collection = collector.collect(dataRequest);
         collection.accept(new MoveSubmissionVisitor(taskWorkspace.toPath()));
         // TODO: Check if created Files are in Folder
         preparedTask.setSubmissions(collection);

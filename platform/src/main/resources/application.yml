@@ -10,7 +10,7 @@ analysis:
   max-tasks: -1
 courses:
   - course: java
-    protocol: local
+    protocol: svn-java
     language: java
   - course: c++
     protocol: local

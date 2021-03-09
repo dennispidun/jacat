@@ -17,6 +17,7 @@ import java.util.stream.Collectors;
 @Profile("local")
 @Repository
 public class EmbeddedAnalysisTaskRepository implements AnalysisTaskRepository{
+
     private List<AnalysisTask> analysisTasks = new ArrayList<>();
 
     @Override

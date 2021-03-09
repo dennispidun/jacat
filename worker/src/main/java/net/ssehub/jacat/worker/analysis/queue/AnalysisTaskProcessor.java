@@ -39,7 +39,7 @@ public class AnalysisTaskProcessor {
         try {
             PreparedTask preparedTask = this.taskPreparer.prepare(task);
             result = capability.run(preparedTask);
-        } catch(Exception e) {
+        } catch(RuntimeException e) {
             result.setFailedResult(Collections.singletonMap("message", e.getMessage()));
         }
 
