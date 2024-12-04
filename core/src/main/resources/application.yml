@@ -1,0 +1,36 @@
+spring:
+  data:
+    mongodb:
+      authentication-database: admin
+      uri: mongodb://root:example@127.0.0.1
+      database: jacat
+
+analysis:
+  max-threads: -1
+
+sparky-auth:
+  basePath: http://147.172.178.30:8080
+  username: ${sparky-auth-username}
+  password: ${sparky-auth-password}
+
+student-mgmt:
+  basePath: http://localhost:3000
+
+courses:
+  - course: java-wise1920
+    protocol: svn-java
+    dataCollector:
+      protocol: svn-java
+      repository: java1
+    language: java
+    listeners:
+      - event: ASSIGNMENT_STATE_CHANGED
+        payload:
+          state: IN_REVIEW
+        analysis: "pp1plag"
+        defaultParams:
+          similarityThreshold: 50.0
+          paUpdateStrategy: UPDATE
+  - course: c++
+    protocol: local
+    language: c++

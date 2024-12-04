@@ -1,9 +1,8 @@
 package net.ssehub.jacat.api.addon;
 
+import java.util.Objects;
 import net.ssehub.jacat.api.AbstractJacatWorker;
 import org.slf4j.Logger;
-
-import java.util.Objects;
 
 /**
  * Diese Klasse beschreibt wie ein Addon funktioniert.
@@ -11,7 +10,6 @@ import java.util.Objects;
  * sodass dieses von der Plattform gestartet werden kann.
  */
 public abstract class Addon {
-
     private AbstractJacatWorker worker;
     private AddonDescription description;
     private Logger logger;
@@ -28,7 +26,7 @@ public abstract class Addon {
      * der Analyseplattform interagieren.
      * @return Laufende JacatPlatform
      */
-    public AbstractJacatWorker getJacatPlatform() {
+    public AbstractJacatWorker getWorker() {
         return worker;
     }
 
@@ -61,5 +59,4 @@ public abstract class Addon {
     public int hashCode() {
         return Objects.hash(description);
     }
-
 }
