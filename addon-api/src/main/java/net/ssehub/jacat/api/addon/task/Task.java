@@ -1,54 +1,63 @@
 package net.ssehub.jacat.api.addon.task;
 
-import net.ssehub.jacat.api.addon.data.DataSection;
+import net.ssehub.jacat.api.addon.data.DataProcessingRequest;
 
+import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 
 public class Task {
-
     private String id;
-
-    private String slug;
-
-    private String language;
 
     private Status status;
 
-    private TaskFinish finish;
+    private TaskMode mode;
 
-    private DataSection dataConfiguration;
+    private DataProcessingRequest dataProcessingRequest;
 
     private Map<String, Object> request;
 
     private Map<String, Object> result;
 
+    private List<String> proccessedBy;
+
     public Task() {
     }
 
-    public Task(String id, String slug, String language, DataSection dataSection, Map<String, Object> request, TaskFinish finish) {
+    public Task(
+        String id,
+        Status status,
+        DataProcessingRequest collectRequest,
+        Map<String, Object> request,
+        TaskMode mode) {
         this.id = id;
-        this.slug = slug;
-        this.language = language;
-        this.dataConfiguration = dataSection;
+        this.status = status;
+        this.dataProcessingRequest = collectRequest;
         this.request = request;
-        this.finish = finish;
+        this.mode = mode;
     }
 
-    public Task(String id,
-                String slug,
-                String language,
-                Status status,
-                DataSection dataSection,
-                Map<String, Object> request,
-                Map<String, Object> result) {
+    public Task(
+        String id,
+        Status status,
+        DataProcessingRequest collectRequest,
+        Map<String, Object> request,
+        Map<String, Object> result,
+        TaskMode mode) {
         this.id = id;
-        this.slug = slug;
-        this.language = language;
         this.status = status;
-        this.dataConfiguration = dataSection;
+        this.dataProcessingRequest = collectRequest;
         this.request = request;
         this.result = result;
+        this.mode = mode;
+    }
+    
+    public Status getStatus() {
+        return status;
+    }
+
+    public void setStatus(Status status) {
+        this.status = status;
     }
 
     public void setResult(Status status, Map<String, Object> result) {
@@ -56,50 +65,53 @@ public class Task {
         this.result = result;
     }
 
-    public void setId(String id) {
-        this.id = id;
-    }
-
     public Map<String, Object> getRequest() {
         return request;
-    }
-
-    public String getSlug() {
-        return slug;
-    }
-
-    public String getLanguage() {
-        return language;
     }
 
     public String getId() {
         return id;
     }
 
-    public DataSection getDataConfiguration() {
-        return this.dataConfiguration;
+    public void setId(String id) {
+        this.id = id;
     }
 
-
-    public Status getStatus() {
-        return status;
+    public DataProcessingRequest getDataProcessingRequest() {
+        return this.dataProcessingRequest;
     }
 
     public Map<String, Object> getResult() {
         return result;
     }
 
+    public TaskMode getMode() {
+        return mode;
+    }
 
-    public void finish() {
-        if (this.finish != null) {
-            this.finish.finish(this);
-        }
+    public void setMode(TaskMode mode) {
+        this.mode = mode;
+    }
+
+    @Override
+    public String toString() {
+        return "Task{" +
+            "id='" + id + '\'' +
+            ", status=" + status +
+            ", dataProcessingRequest=" + dataProcessingRequest +
+            ", request=" + request +
+            ", result=" + result +
+            '}';
     }
 
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
         Task task = (Task) o;
         return Objects.equals(id, task.id);
     }
@@ -109,23 +121,8 @@ public class Task {
         return Objects.hash(id);
     }
 
-    @Override
-    public String toString() {
-        return "Task{" +
-                "id='" + id + '\'' +
-                ", slug='" + slug + '\'' +
-                ", language='" + language + '\'' +
-                ", status=" + status +
-                ", finish=" + finish +
-                ", dataConfiguration=" + dataConfiguration +
-                ", request=" + request +
-                ", result=" + result +
-                '}';
-    }
-
     public enum Status {
         SUCCESSFUL(),
         FAILED()
     }
-
 }
